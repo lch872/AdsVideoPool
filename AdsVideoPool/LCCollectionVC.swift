@@ -35,8 +35,7 @@ class LCCollectionVC: UICollectionViewController,UICollectionViewDelegateFlowLay
         // Uncomment the following line to preserve selection between presentations
         // Register cell classes
         self.collectionView!.register(LCCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        
+        self.collectionView!.delaysContentTouches = false
 
         
         
@@ -78,7 +77,7 @@ class LCCollectionVC: UICollectionViewController,UICollectionViewDelegateFlowLay
         cell.data = json[indexPath.row%2]
         cell.backgroundColor = UIColor.white
         
-        cell.layer.cornerRadius = 20;
+        cell.layer.cornerRadius = 16;
         cell.layer.masksToBounds = true;
         cell.layer.shadowColor = UIColor.lightGray.cgColor
         cell.layer.shadowOffset = CGSize.init(width: 5, height: 10)
@@ -86,19 +85,12 @@ class LCCollectionVC: UICollectionViewController,UICollectionViewDelegateFlowLay
         cell.layer.shadowRadius = 5;
         
         
+        
+        
         return cell
     }
     
-
-
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let cell = collectionView.cellForItem(at: indexPath)
-        print("44444")
-        UIView.animate(withDuration: 0.4) {
-            cell!.transform = cell!.transform.scaledBy(x: 0.97, y: 0.97)
-        }
-        
+    override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "makeOriginal"), object: nil)
     }
-
 }

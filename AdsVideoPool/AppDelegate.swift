@@ -29,6 +29,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let collection = LCCollectionVC.init(collectionViewLayout: layout)
         collection.collectionView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
         let nav = LCNavigationC.init(rootViewController: collection)
+        
+        
+//        let table = LCTableViewC.init(style: .plain)
+//        table.tableView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
+//        let nav = LCNavigationC.init(rootViewController: table)
+        
+        
         nav.tabBarItem.title = "首页"
         nav.tabBarItem.image = UIImage.init(named: "main")
         

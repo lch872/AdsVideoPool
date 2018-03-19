@@ -20,10 +20,12 @@ class LCCollectionViewCell: UICollectionViewCell {
         }
     }
     
+    var isScaled = false
+    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(makeOriginal), name: NSNotification.Name(rawValue: "makeOriginal"), object: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -76,6 +78,21 @@ class LCCollectionViewCell: UICollectionViewCell {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("sdddddd")
+        
+        if !isScaled {
+            isScaled = true
+            UIView.animate(withDuration: 0.28) {
+                self.transform = self.transform.scaledBy(x: 0.96, y: 0.96)
+            }
+        }
+    }
+    
+    @objc func makeOriginal() {
+        if isScaled {
+            isScaled = false
+            UIView.animate(withDuration: 0.28) {
+                self.transform = CGAffineTransform.identity
+            }
+        }
     }
 }
