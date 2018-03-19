@@ -17,16 +17,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         
         
+        let tabbar = UITabBarController.init()
+        
+        
         let layout = UICollectionViewFlowLayout.init()
-        layout.itemSize = CGSize.init(width: self.window!.bounds.width, height: self.window!.bounds.height)
-        layout.scrollDirection = .horizontal
-        layout.minimumLineSpacing = 0;
+        layout.itemSize = CGSize.init(width: self.window!.bounds.width-40, height: 414)
+        layout.scrollDirection = .vertical
+        layout.minimumLineSpacing = 30;
         layout.minimumInteritemSpacing = 0;
         
-        let ccc = LCCollectionVC.init(collectionViewLayout: layout)
-        let nav = LCNavigationC.init(rootViewController: ccc)
+        let collection = LCCollectionVC.init(collectionViewLayout: layout)
+        collection.collectionView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
+        let nav = LCNavigationC.init(rootViewController: collection)
+        nav.tabBarItem.title = "首页"
+        nav.tabBarItem.image = UIImage.init(named: "main")
         
-        self.window!.rootViewController = nav
+        let focus = UITableViewController.init(style: .plain)
+        focus.tabBarItem.title = "动态"
+        focus.tabBarItem.image = UIImage.init(named: "focus")
+        
+        let mine = UITableViewController.init(style: .plain)
+        mine.tabBarItem.title = "我"
+        mine.tabBarItem.image = UIImage.init(named: "mine")
+        
+        
+        tabbar.addChildViewController(nav)
+        tabbar.addChildViewController(focus)
+        tabbar.addChildViewController(mine)
+        
+        
+        self.window!.rootViewController = tabbar
         
         self.window!.makeKeyAndVisible()
         

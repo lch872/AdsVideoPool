@@ -11,40 +11,35 @@ import UIKit
 private let reuseIdentifier = "Cell"
 
 class LCCollectionVC: UICollectionViewController,UICollectionViewDelegateFlowLayout {
-
     
-    var menu = UIScrollView()
+    
+    var json = [[
+            "tag":"游戏推荐",
+            "title":"勇闯迷宫，拯救公主",
+            "videoName":"2.mp4",
+            "detail":"进入《Crypt of the NecroDancer》的动感冒险",
+            "width":"886",
+            "height":"664",
+        ],
+        [   "tag":"今日推荐",
+            "title":"知你喜好,为你调酒",
+            "videoName":"3.mp4",
+            "width":"1280",
+            "height":"720",
+            "detail":"与石原里美一起享受美味的好酒"
+        ]]
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Uncomment the following line to preserve selection between presentations
-        self.collectionView?.isPagingEnabled = true
-
         // Register cell classes
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        self.collectionView!.register(LCCollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         
-        
-        let  view  = UIView.init()
-        view.backgroundColor = UIColor.green
-        menu = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: 288, height: 30))
-        menu.showsHorizontalScrollIndicator = false
-        menu.contentSize = CGSize.init(width: 500, height: 30)
+
         
         
-        let view2 = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 500, height: 30))
-        let arr = ["推荐","日报","创意","音乐","旅行","广告","游戏"]
-        for item in arr.enumerated() {
-            let lab = UILabel.init(frame: CGRect.init(x:(58*item.offset), y: 0, width: 58, height: 30))
-            lab.text = item.element
-            view2.addSubview(lab)
-        }
-        menu.addSubview(view2)
-    
-        
-        
-        self.navigationItem.titleView = menu
         
     }
 
@@ -73,65 +68,37 @@ class LCCollectionVC: UICollectionViewController,UICollectionViewDelegateFlowLay
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 4
+        return 7
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier:reuseIdentifier, for: indexPath)
-        cell.backgroundColor = UIColor.red
-        let _frame = self.view.bounds
-        let nil_label = UILabel(frame: _frame)
-        nil_label.tag = 1;
-        nil_label.text = "Hello";
-        cell.contentView.addSubview(nil_label)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier:reuseIdentifier, for: indexPath) as! LCCollectionViewCell
         
-       
+        cell.data = json[indexPath.row%2]
+        cell.backgroundColor = UIColor.white
+        
+        cell.layer.cornerRadius = 20;
+        cell.layer.masksToBounds = true;
+        cell.layer.shadowColor = UIColor.lightGray.cgColor
+        cell.layer.shadowOffset = CGSize.init(width: 5, height: 10)
+        cell.layer.shadowOpacity = 0.8;
+        cell.layer.shadowRadius = 5;
+        
+        
         return cell
     }
     
-    
-     private let sectionInsets = UIEdgeInsets(top: 0.0, left: 0, bottom: 0.0, right: 0)
-     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
-        return sectionInsets
-    }
+
 
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath)
+        print("44444")
+        UIView.animate(withDuration: 0.4) {
+            cell!.transform = cell!.transform.scaledBy(x: 0.97, y: 0.97)
+        }
         
-        
-        menu.setContentOffset(CGPoint.init(x: indexPath.row*58, y: 0), animated: true)
     }
-    // MARK: UICollectionViewDelegate
-
-    /*
-    // Uncomment this method to specify if the specified item should be highlighted during tracking
-    override func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment this method to specify if the specified item should be selected
-    override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-        return true
-    }
-    */
-
-    /*
-    // Uncomment these methods to specify if an action menu should be displayed for the specified item, and react to actions performed on the item
-    override func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        return false
-    }
-
-    override func collectionView(_ collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: Any?) {
-    
-    }
-    */
 
 }
