@@ -49,6 +49,11 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         self.navigationController?.delegate = self;
         
     }
+
+    func addView(view:AVPlayerView){
+        playerView.layer.addSublayer(view.avPlayerLayer)
+        playerView.isUserInteractionEnabled = false
+    }
     
     
     func setupView() {
@@ -77,21 +82,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         let div:Float = Float(data["height"]!)!/Float(data["width"]!)!
         playerView = AVPlayerView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*SCREEN_WIDTH))
         mainView.addSubview(playerView)
-//
-//
-//        let filePath = Bundle.main.path(forResource: data["videoName"], ofType:nil)
-//        let videoURL = URL(fileURLWithPath: filePath!)
-//        //定义一个视频播放器，通过本地文件路径初始化
-//        let player = AVPlayer(url: videoURL)
-//        //设置大小和位置（全屏）
-//        let playerLayer = AVPlayerLayer(player: player)
-//
-//        playerLayer.frame = playerView.bounds
-//        //添加到界面上
-//        playerView.layer.addSublayer(playerLayer)
-//        //开始播放
-//        player.play()
-//
+
+
 
         
         
@@ -258,22 +250,20 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         
-        
         let cell = toVC.tableView.cellForRow(at: currentIndex) as? MainViewCell
-       print("currentIndex:\(currentIndex)")
+       
+        print("currentIndex:\(currentIndex)")
         if cell == nil {
             print("nil ----- \(toVC.tableView)")
         }
-        let originView = cell?.playerView
+        let toView = cell?.playerView
         
         
-        let snapShotView = fromView//.snapshotView(afterScreenUpdates: false) as! UIView
-//        snapShotView.layer.masksToBounds = true;
-//        snapShotView.layer.cornerRadius = 15;
+        let snapShotView = fromView
         snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview)
 //
 //        fromView.isHidden = true
-        originView?.isHidden = true
+        toView?.isHidden = true
         
         containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
@@ -283,14 +273,26 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             containerView.layoutIfNeeded()
             fromVC.view.alpha = 0.0
             snapShotView.layer.cornerRadius = 15
-            snapShotView.frame = containerView.convert((originView?.frame)!, from: originView?.superview)
+            
+            
+//            print(originView)
+            
+            print("originView?.frame \(toView?.frame)")
+//            let ddd = snapShotView.frame
+//            snapShotView.frame = CGRect.init(x: 0, y: 500, width: ddd.size.width, height: ddd.size.height)
+            snapShotView.frame = containerView.convert((cell?.contentView.frame)!, from: UIApplication.shared.delegate!.window!)
+            print("changed: \(snapShotView.frame)")
+            
+            
+            
+            
            let tabBar = self.tabBarController!.tabBar as UITabBar
                tabBar.frame = CGRect.init(x: 0, y: SCREEN_HEIGHT-49, width: SCREEN_WIDTH, height: 49)
 
         }) { (finished) -> Void in
             fromView.isHidden = true;
 //            snapShotView.removeFromSuperview()
-            originView?.isHidden = false;
+            toView?.isHidden = false;
 //            originView?.layer.addSublayer(snapShotView.layer)
 //            snapShotView.layer.removeFromSuperlayer()
 //            originView?.superview?.addSubview(snapShotView.superview!)
