@@ -26,14 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         layout.minimumLineSpacing = 30;
         layout.minimumInteritemSpacing = 0;
         
-        let collection = LCCollectionVC.init(collectionViewLayout: layout)
-        collection.collectionView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
-        let nav = LCNavigationC.init(rootViewController: collection)
+
         
-        
-//        let table = LCTableViewC.init(style: .plain)
-//        table.tableView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
-//        let nav = LCNavigationC.init(rootViewController: table)
+        let table = MainTableView.init(style: .plain)
+        table.tableView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
+        let nav = UINavigationController.init(rootViewController: table)
         
         
         nav.tabBarItem.title = "首页"
@@ -52,7 +49,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabbar.addChildViewController(focus)
         tabbar.addChildViewController(mine)
         
-        
+    
         self.window!.rootViewController = tabbar
         
         self.window!.makeKeyAndVisible()
