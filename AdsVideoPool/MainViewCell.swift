@@ -38,6 +38,12 @@ class MainViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func addView(view:AVPlayerView){
+        view.avPlayerLayer.removeFromSuperlayer()
+        
+        playerView.layer.addSublayer(view.avPlayerLayer)
+        playerView.isUserInteractionEnabled = false
+    }
     
     var tagL = UILabel()
     var title = UILabel()

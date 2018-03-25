@@ -25,6 +25,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     var playerView = AVPlayerView()
       var bgImg = UIImage()
     var mainView = UIView()
+    var cellRect = CGRect()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -275,12 +277,12 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             snapShotView.layer.cornerRadius = 15
             
             
-//            print(originView)
+            print(self.cellRect)
             
             print("originView?.frame \(toView?.frame)")
-//            let ddd = snapShotView.frame
-//            snapShotView.frame = CGRect.init(x: 0, y: 500, width: ddd.size.width, height: ddd.size.height)
-            snapShotView.frame = containerView.convert((cell?.contentView.frame)!, from: UIApplication.shared.delegate!.window!)
+            let ddd = snapShotView.frame
+            snapShotView.frame = CGRect.init(x: ddd.origin.x, y: self.cellRect.origin.y, width: self.cellRect.size.width, height: self.cellRect.size.height)
+//            snapShotView.frame = containerView.convert((cell?.contentView.frame)!, from: cell.v)
             print("changed: \(snapShotView.frame)")
             
             
@@ -290,12 +292,11 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
                tabBar.frame = CGRect.init(x: 0, y: SCREEN_HEIGHT-49, width: SCREEN_WIDTH, height: 49)
 
         }) { (finished) -> Void in
-            fromView.isHidden = true;
-//            snapShotView.removeFromSuperview()
-            toView?.isHidden = false;
-//            originView?.layer.addSublayer(snapShotView.layer)
-//            snapShotView.layer.removeFromSuperlayer()
-//            originView?.superview?.addSubview(snapShotView.superview!)
+            fromView.isHidden = false
+            toView?.isHidden = false
+            
+            snapShotView.removeFromSuperview()
+            cell!.addView(view: snapShotView)
             
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }

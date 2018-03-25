@@ -49,6 +49,10 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         detail.bgImg = imageFromView()
         detail.data = JSON[indexPath.row%2]
         detail.currentIndex = indexPath
+
+        let cell = self.tableView.cellForRow(at: indexPath) as! MainViewCell
+        let rc = cell.convert(cell.playerView.frame, to:(UIApplication.shared.delegate?.window)!)
+        detail.cellRect = rc
         
         self.navigationController?.pushViewController(detail, animated: true)
     }
@@ -127,7 +131,7 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
                 toView.isHidden = false
                 fromView.isHidden = false
                 snapShotView.removeFromSuperview()
-                toVC.addView(view: snapShotView as! AVPlayerView)
+                toVC.addView(view: snapShotView)
 //                [self.tableView reloadData];
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
