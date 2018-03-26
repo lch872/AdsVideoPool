@@ -38,15 +38,13 @@ class MainViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addView(view:AVPlayerView){
-        let div:Float = 0.56
-        view.frame = CGRect.init(x: 0, y: 0, width: self.bgView.bounds.width, height: CGFloat(div)*bgView.bounds.width)
-        self.bgView.addSubview(view)
-        self.playerView = view
+    func addView(view:CALayer){
+        self.playerView.layer.addSublayer(view)
+        self.playerView.avPlayerLayer = view as! AVPlayerLayer
+        
+        
+        print("already did it \(view.frame)")
 
-        
-        
-        print("already did it")
     }
     
     var tagL = UILabel()

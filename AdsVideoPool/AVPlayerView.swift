@@ -40,7 +40,12 @@ class AVPlayerView: UIView {
 
     
     override func layoutSubviews() {
+//        [CATransaction begin];
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
         avPlayerLayer.frame = self.bounds
+         CATransaction.commit()
+        
         super.layoutSubviews()
     }
 }

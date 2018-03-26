@@ -105,10 +105,13 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         let containerView = transitionContext.containerView
         
         
+//        snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview!)
         
-       let snapShotView = cell.playerView
-        snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview!)
+        let snapShotView = UIView.init(frame: containerView.convert(fromView.frame, from: fromView.superview!))
+        let playLayer = cell.playerView.avPlayerLayer
+        snapShotView.layer.addSublayer(playLayer)
         
+        print("befor: \(snapShotView.frame)")
         
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         toVC.view.alpha = 0;
@@ -125,14 +128,15 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             tabBar?.frame = CGRect.init(x: 0, y: SCREEN_HEIGHT, width: SCREEN_WIDTH, height: 49)
             
             snapShotView.frame = containerView.convert(toView.frame, from: toView.superview)
-    
+            playLayer.frame = snapShotView.bounds
+            print("animate: \(playLayer.frame)")
             
             }) { (finished) -> Void in
                 toView.isHidden = false
                 fromView.isHidden = false
+                playLayer.removeFromSuperlayer()
                 snapShotView.removeFromSuperview()
-                toVC.addView(view: snapShotView)
-//                [self.tableView reloadData];
+                toVC.addView(view: playLayer)
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
     

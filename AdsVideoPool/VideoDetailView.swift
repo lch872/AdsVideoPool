@@ -52,10 +52,10 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
     }
 
-    func addView(view:AVPlayerView){
+    func addView(view:CALayer){
         
-//        self.playerView.backgroundColor = UIColor.red
-        self.playerView.layer.addSublayer(view.avPlayerLayer)
+        self.playerView.layer.addSublayer(view)
+        self.playerView.avPlayerLayer = view as! AVPlayerLayer
         self.playerView.isUserInteractionEnabled = false
     }
     
@@ -189,8 +189,13 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
                 if (scale > 1.0) {
                     scale = 1.0;
                 } else if (scale < 0.9) {
-                    scale = 0.8;
+                    scale = 0.9;
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.03, execute: {
+                        let rect = self.playerView.frame
+                        print(rect)
+//                        self.playerView.transform = CGAffineTransform.identity
+                        print("rect\(rect)")
+                        print(self.playerView.frame)
                         self.navigationController?.popViewController(animated: true)
                     })
                 }
@@ -212,10 +217,20 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
                 scale = 1;
                 self.table.isScrollEnabled = true;
                 if (scale>0.8) {
+                    print("befor")
+                    print(self.playerView.frame)
+                    print(self.playerView.avPlayerLayer.frame)
+                    
                     UIView.animate(withDuration: 0.2, animations: {
                         self.mainView.layer.cornerRadius = 0;
-                        self.mainView.transform = CGAffineTransform.identity
+//                        self.mainView.transform = CGAffineTransform.identity
+                    }, completion: { (void) in
+                        print("completion")
+                        print(self.playerView.frame)
+                        print(self.playerView.avPlayerLayer.frame)
                     })
+                    
+                    
                 }
             default:
                 print("ffff")
@@ -263,35 +278,43 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         let toView = cell?.playerView
         
         
-        let snapShotView = fromView
-        snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview)
-//
-//        fromView.isHidden = true
+        let playLayer = fromView.avPlayerLayer
+        
+        let snapShotView = UIView.init(frame: containerView.convert(fromView.frame, from: fromView.superview))
+        
+        snapShotView.layer.addSublayer(playLayer)
+        
+//      snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview)
+//      fromView.isHidden = true
+        
         toView?.isHidden = true
         
         containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
+        
+        
+        print("originView?.frame \(snapShotView.frame)")
         
         UIView.animate(withDuration: self.transitionDuration(using:transitionContext ), delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options:.curveEaseOut, animations: {
             
             containerView.layoutIfNeeded()
             fromVC.view.alpha = 0.0
             snapShotView.layer.cornerRadius = 15
+            snapShotView.layer.masksToBounds = true
             
             
             print(self.cellRect)
             
 //            print("originView?.frame \(toView?.frame)")
-//            let ddd = snapShotView.frame  //ddd.origin.x
-            
-            snapShotView.frame = CGRect.init(x: 20, y: self.cellRect.origin.y, width: SCREEN_WIDTH-60, height: self.cellRect.size.height+100)
-            snapShotView.backgroundColor = UIColor.yellow
-            snapShotView.layoutSubviews()
-            
+            let ddd = snapShotView.frame  //ddd.origin.x
+            print("houmian :\(snapShotView.frame)")
+            snapShotView.frame = CGRect.init(x: 20, y: self.cellRect.origin.y, width: ddd.size.width, height: ddd.size.height)
+            playLayer.frame = snapShotView.bounds
+            print("changed: \(snapShotView.frame)")
             
             
 //            snapShotView.frame = containerView.convert((cell?.contentView.frame)!, from: cell.v)
-            print("changed: \(snapShotView.frame)")
+            
             
             
             
@@ -302,8 +325,9 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         }) { (finished) -> Void in
             fromView.isHidden = false
             toView?.isHidden = false
-//            snapShotView.removeFromSuperview()
-//            cell!.addView(view: snapShotView)
+            playLayer.removeFromSuperlayer()
+            snapShotView.removeFromSuperview()
+            cell!.addView(view: playLayer)
             
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
