@@ -39,10 +39,14 @@ class MainViewCell: UITableViewCell {
     }
     
     func addView(view:AVPlayerView){
-        view.avPlayerLayer.removeFromSuperlayer()
+        let div:Float = 0.56
+        view.frame = CGRect.init(x: 0, y: 0, width: self.bgView.bounds.width, height: CGFloat(div)*bgView.bounds.width)
+        self.bgView.addSubview(view)
+        self.playerView = view
+
         
-        playerView.layer.addSublayer(view.avPlayerLayer)
-        playerView.isUserInteractionEnabled = false
+        
+        print("already did it")
     }
     
     var tagL = UILabel()

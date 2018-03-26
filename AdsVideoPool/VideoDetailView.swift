@@ -53,8 +53,10 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     }
 
     func addView(view:AVPlayerView){
-        playerView.layer.addSublayer(view.avPlayerLayer)
-        playerView.isUserInteractionEnabled = false
+        
+//        self.playerView.backgroundColor = UIColor.red
+        self.playerView.layer.addSublayer(view.avPlayerLayer)
+        self.playerView.isUserInteractionEnabled = false
     }
     
     
@@ -186,7 +188,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
 //                print(scale)
                 if (scale > 1.0) {
                     scale = 1.0;
-                } else if (scale < 0.8) {
+                } else if (scale < 0.9) {
                     scale = 0.8;
                     DispatchQueue.main.asyncAfter(deadline: .now()+0.03, execute: {
                         self.navigationController?.popViewController(animated: true)
@@ -279,9 +281,15 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             
             print(self.cellRect)
             
-            print("originView?.frame \(toView?.frame)")
-            let ddd = snapShotView.frame
-            snapShotView.frame = CGRect.init(x: ddd.origin.x, y: self.cellRect.origin.y, width: self.cellRect.size.width, height: self.cellRect.size.height)
+//            print("originView?.frame \(toView?.frame)")
+//            let ddd = snapShotView.frame  //ddd.origin.x
+            
+            snapShotView.frame = CGRect.init(x: 20, y: self.cellRect.origin.y, width: SCREEN_WIDTH-60, height: self.cellRect.size.height+100)
+            snapShotView.backgroundColor = UIColor.yellow
+            snapShotView.layoutSubviews()
+            
+            
+            
 //            snapShotView.frame = containerView.convert((cell?.contentView.frame)!, from: cell.v)
             print("changed: \(snapShotView.frame)")
             
@@ -294,9 +302,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         }) { (finished) -> Void in
             fromView.isHidden = false
             toView?.isHidden = false
-            
-            snapShotView.removeFromSuperview()
-            cell!.addView(view: snapShotView)
+//            snapShotView.removeFromSuperview()
+//            cell!.addView(view: snapShotView)
             
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
