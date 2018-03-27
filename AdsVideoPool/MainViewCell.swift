@@ -39,6 +39,17 @@ class MainViewCell: UITableViewCell {
     }
     
     func addView(view:CALayer){
+        print("add ----- ")
+        print(self.playerView.frame)
+        print(self.playerView)
+        
+            
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        view.frame = self.playerView.bounds
+        CATransaction.commit()
+        
+        
         self.playerView.layer.addSublayer(view)
         self.playerView.avPlayerLayer = view as! AVPlayerLayer
         

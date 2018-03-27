@@ -26,13 +26,13 @@ class AVPlayerView: UIView {
     
     func playWithItem(item:AVPlayerItem) {
         avPlayer.replaceCurrentItem(with: item)
+        avPlayer.volume = 0
         avPlayer.play()
     }
     
     
     func setupView() {
         avPlayer = AVPlayer.init()
-        
         //设置大小和位置（全屏）
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         self.layer.addSublayer(avPlayerLayer)
@@ -40,10 +40,15 @@ class AVPlayerView: UIView {
 
     
     override func layoutSubviews() {
-//        [CATransaction begin];
+        
+        print("layoutSubviews \(self.frame)")
+        print("avPlayerLayer.frame \(avPlayerLayer.frame)")
+        
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         avPlayerLayer.frame = self.bounds
+//        avPlayerLayer.frame = CGRect.init(x: 0, y: 0, width: self.bounds.size.width*0.9, height: self.bounds.size.height)
+        
          CATransaction.commit()
         
         super.layoutSubviews()

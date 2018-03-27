@@ -110,8 +110,8 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         let snapShotView = UIView.init(frame: containerView.convert(fromView.frame, from: fromView.superview!))
         let playLayer = cell.playerView.avPlayerLayer
         snapShotView.layer.addSublayer(playLayer)
+
         
-        print("befor: \(snapShotView.frame)")
         
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         toVC.view.alpha = 0;
@@ -128,7 +128,12 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             tabBar?.frame = CGRect.init(x: 0, y: SCREEN_HEIGHT, width: SCREEN_WIDTH, height: 49)
             
             snapShotView.frame = containerView.convert(toView.frame, from: toView.superview)
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
             playLayer.frame = snapShotView.bounds
+            CATransaction.commit()
+            
+            
             print("animate: \(playLayer.frame)")
             
             }) { (finished) -> Void in

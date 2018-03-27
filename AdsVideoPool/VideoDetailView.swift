@@ -33,8 +33,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
 
         
         
-        let swipe = UISwipeGestureRecognizer.init(target: self, action: #selector(dismiss(animated:completion:)))
-        self.view.addGestureRecognizer(swipe)
+//        let swipe = UISwipeGestureRecognizer.init(target: self, action: #selector(dismiss(animated:completion:)))
+//        self.view.addGestureRecognizer(swipe)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -44,6 +44,11 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         pan.delegate = self
         self.view.addGestureRecognizer(pan)
         
+        
+        let ss = UIScreenEdgePanGestureRecognizer.init(target: self, action: #selector(scaleDissmiss(_:)))
+        ss.edges = .left
+        ss.delegate = self
+        self.view.addGestureRecognizer(ss)
         
     }
 
@@ -171,33 +176,37 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         NotificationCenter.default.removeObserver(self)
     }
 
-    
-    var startPointY:CGFloat  = 0.0
+    var startPoint:CGPoint  = CGPoint(x: 0, y:0)
     var scale:CGFloat = 0.0
     
-    @objc func scaleDissmiss(_ pan:UIPanGestureRecognizer) {
+    @objc func scaleDissmiss(_ pan:UIGestureRecognizer) {
         
+        let cc = pan.isKind(of: UIScreenEdgePanGestureRecognizer.self)
+        
+//        print(cc)
         switch pan.state {
             case .began:    // 手势开始
-                let currentPoint = pan.location(in: self.playerView)
-                startPointY = currentPoint.y;
+                startPoint = pan.location(in: self.playerView)
             
             case .changed:  // 手势状态改变
                 let currentPoint = pan.location(in: self.playerView)
-                scale = (SCREEN_HEIGHT-(currentPoint.y-startPointY))/SCREEN_HEIGHT
-//                print(scale)
+                scale = (SCREEN_HEIGHT-(currentPoint.y-startPoint.y))/SCREEN_HEIGHT
+                if pan.isKind(of: UIScreenEdgePanGestureRecognizer.self){
+                    scale = (SCREEN_WIDTH-(currentPoint.x-startPoint.x))/SCREEN_WIDTH
+                }
+
                 if (scale > 1.0) {
                     scale = 1.0;
                 } else if (scale < 0.9) {
                     scale = 0.9;
-                    DispatchQueue.main.asyncAfter(deadline: .now()+0.03, execute: {
-                        let rect = self.playerView.frame
-                        print(rect)
-//                        self.playerView.transform = CGAffineTransform.identity
-                        print("rect\(rect)")
-                        print(self.playerView.frame)
+                    
+//                    DispatchQueue.main.asyncAfter(deadline: .now()+0.03, execute: {
+//                        print("avPlayerLayer : \(self.playerView.avPlayerLayer.frame)")
+                        self.mainView.transform = CGAffineTransform.identity
+                    
+//                        print("after : \(self.playerView.avPlayerLayer.frame)")
                         self.navigationController?.popViewController(animated: true)
-                    })
+//                    })
                 }
                 if (self.table.contentOffset.y<=0) {
                     // 缩放
@@ -216,38 +225,33 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
                 print("手势结束")
                 scale = 1;
                 self.table.isScrollEnabled = true;
-                if (scale>0.8) {
-                    print("befor")
-                    print(self.playerView.frame)
-                    print(self.playerView.avPlayerLayer.frame)
+                if (scale>0.9) {
                     
                     UIView.animate(withDuration: 0.2, animations: {
                         self.mainView.layer.cornerRadius = 0;
-//                        self.mainView.transform = CGAffineTransform.identity
+                        self.mainView.transform = CGAffineTransform.identity
                     }, completion: { (void) in
-                        print("completion")
-                        print(self.playerView.frame)
-                        print(self.playerView.avPlayerLayer.frame)
+//                        print("completion")
+//                        print(self.playerView.frame)
+//                        print(self.playerView.avPlayerLayer.frame)
                     })
                     
                     
                 }
             default:
-                print("ffff")
+                return
         }
     }
     
+//    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+//        return true
+//    }
+    
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
-        print(scrollView.contentSize.height)
-        print(scrollView.bounds.size.height)
-        // 禁止上拉
         if scrollView.contentOffset.y < 0 {
-            
             scrollView.contentOffset.y = 0
         }
-
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -281,8 +285,12 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         let playLayer = fromView.avPlayerLayer
         
         let snapShotView = UIView.init(frame: containerView.convert(fromView.frame, from: fromView.superview))
-        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        playLayer.frame = snapShotView.bounds
+        CATransaction.commit()
         snapShotView.layer.addSublayer(playLayer)
+        print("创建:\n\(snapShotView.frame) \n\(playLayer.frame) ")
         
 //      snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview)
 //      fromView.isHidden = true
@@ -291,38 +299,37 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         containerView.insertSubview(toVC.view, belowSubview: fromVC.view)
         containerView.addSubview(snapShotView)
-        
-        
-        print("originView?.frame \(snapShotView.frame)")
+        print("添加:\n\(snapShotView.frame) \n\(playLayer.frame) ")
         
         UIView.animate(withDuration: self.transitionDuration(using:transitionContext ), delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0, options:.curveEaseOut, animations: {
             
             containerView.layoutIfNeeded()
             fromVC.view.alpha = 0.0
-            snapShotView.layer.cornerRadius = 15
-            snapShotView.layer.masksToBounds = true
             
             
-            print(self.cellRect)
+            let ddd = snapShotView.frame  
             
-//            print("originView?.frame \(toView?.frame)")
-            let ddd = snapShotView.frame  //ddd.origin.x
-            print("houmian :\(snapShotView.frame)")
             snapShotView.frame = CGRect.init(x: 20, y: self.cellRect.origin.y, width: ddd.size.width, height: ddd.size.height)
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
             playLayer.frame = snapShotView.bounds
-            print("changed: \(snapShotView.frame)")
+            CATransaction.commit()
+            
             
             
 //            snapShotView.frame = containerView.convert((cell?.contentView.frame)!, from: cell.v)
             
             
             
-            
+            print("动画:\n\(snapShotView.frame) \n\(playLayer.frame) ")
             
            let tabBar = self.tabBarController!.tabBar as UITabBar
                tabBar.frame = CGRect.init(x: 0, y: SCREEN_HEIGHT-49, width: SCREEN_WIDTH, height: 49)
 
         }) { (finished) -> Void in
+            
+            print("完成:\n\(snapShotView.frame) \n\(playLayer.frame) ")
+            
             fromView.isHidden = false
             toView?.isHidden = false
             playLayer.removeFromSuperlayer()
@@ -335,3 +342,5 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     }
     
 }
+
+

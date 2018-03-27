@@ -13,6 +13,7 @@
 		574EF122205FB89000219685 /* 3.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 574EF121205FB89000219685 /* 3.mp4 */; };
 		574EF124205FC61C00219685 /* 4.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 574EF123205FC61C00219685 /* 4.mp4 */; };
 		575144F52068A2D8004EC1F4 /* 2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 575144F42068A2D8004EC1F4 /* 2.mp4 */; };
+		5751451520690A60004EC1F4 /* MYLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5751451420690A60004EC1F4 /* MYLayer.swift */; };
 		5766501C205B651C0027AE95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5766501B205B651C0027AE95 /* AppDelegate.swift */; };
 		57665021205B651C0027AE95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5766501F205B651C0027AE95 /* Main.storyboard */; };
 		57665023205B651C0027AE95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57665022205B651C0027AE95 /* Assets.xcassets */; };
@@ -37,6 +38,7 @@
 		574EF121205FB89000219685 /* 3.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 3.mp4; sourceTree = "<group>"; };
 		574EF123205FC61C00219685 /* 4.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 4.mp4; sourceTree = "<group>"; };
 		575144F42068A2D8004EC1F4 /* 2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.mp4; sourceTree = "<group>"; };
+		5751451420690A60004EC1F4 /* MYLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MYLayer.swift; sourceTree = "<group>"; };
 		57665018205B651C0027AE95 /* AdsVideoPool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdsVideoPool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5766501B205B651C0027AE95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57665020205B651C0027AE95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 				576FE96F2060F8F2006F3910 /* CommentView.swift */,
 				576FE97120610113006F3910 /* CommentCell.swift */,
 				576DA19F2064CFDB00219947 /* AVPlayerView.swift */,
+				5751451420690A60004EC1F4 /* MYLayer.swift */,
 				5766501F205B651C0027AE95 /* Main.storyboard */,
 				577EEE072062507400EB0E7D /* 1111.png */,
 				572C0489206369B200C83815 /* 123.png */,
@@ -257,6 +260,7 @@
 				5766501C205B651C0027AE95 /* AppDelegate.swift in Sources */,
 				576FE9702060F8F2006F3910 /* CommentView.swift in Sources */,
 				576FE97220610113006F3910 /* CommentCell.swift in Sources */,
+				5751451520690A60004EC1F4 /* MYLayer.swift in Sources */,
 				576DA1A02064CFDB00219947 /* AVPlayerView.swift in Sources */,
 				574ED4BF2064EDBE00C20B42 /* MainViewCell.swift in Sources */,
 				577EEE04206201F900EB0E7D /* PostInfoView.swift in Sources */,
