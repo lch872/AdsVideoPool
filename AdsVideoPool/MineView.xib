@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MineView" customModule="AdsVideoPool" customModuleProvider="target">
+            <connections>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="b3M-Kc-Abx">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                    <subviews>
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="用户头像" translatesAutoresizingMaskIntoConstraints="NO" id="jee-yd-j6V">
+                            <rect key="frame" x="142" y="55" width="90" height="90"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="90" id="VWG-t2-q6k"/>
+                                <constraint firstAttribute="width" constant="90" id="eJs-43-XGE"/>
+                            </constraints>
+                        </imageView>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击登录后可评论" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8D6-Ng-4oY">
+                            <rect key="frame" x="130" y="150" width="115" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="115" id="VVB-Tc-zGM"/>
+                                <constraint firstAttribute="height" constant="21" id="jsV-6l-Qju"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.57509836309999995" green="0.57604166670000001" blue="0.56288846940000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <color key="backgroundColor" red="0.97030530018973771" green="0.96904926586559903" blue="0.9909890569173373" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstItem="jee-yd-j6V" firstAttribute="top" secondItem="b3M-Kc-Abx" secondAttribute="top" constant="55" id="Iae-qD-4R4"/>
+                        <constraint firstItem="jee-yd-j6V" firstAttribute="centerX" secondItem="b3M-Kc-Abx" secondAttribute="centerX" id="V6D-6X-wPy"/>
+                        <constraint firstAttribute="height" constant="250" id="YGO-C3-pqB"/>
+                        <constraint firstItem="8D6-Ng-4oY" firstAttribute="centerX" secondItem="b3M-Kc-Abx" secondAttribute="centerX" id="mnM-bH-C2i"/>
+                        <constraint firstItem="8D6-Ng-4oY" firstAttribute="top" secondItem="jee-yd-j6V" secondAttribute="bottom" constant="5" id="yzx-qG-cU4"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="b3M-Kc-Abx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" id="8gf-9b-LDc"/>
+                <constraint firstItem="b3M-Kc-Abx" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Qeu-cn-ikM"/>
+                <constraint firstItem="b3M-Kc-Abx" firstAttribute="trailing" secondItem="fnl-2z-Ty3" secondAttribute="trailing" id="eDb-z6-cr4"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
+            <point key="canvasLocation" x="33.5" y="54.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="用户头像" width="85" height="85"/>
+    </resources>
+</document>

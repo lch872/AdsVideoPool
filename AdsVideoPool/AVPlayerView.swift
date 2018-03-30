@@ -8,11 +8,20 @@
 
 import UIKit
 import AVKit
+
 class AVPlayerView: UIView {
 
     var avPlayer = AVPlayer()
     var avPlayerLayer = AVPlayerLayer()
-    
+//    
+//    
+//   override var frame: CGRect{
+//    didSet {
+//        print("--------------")
+//        print("old: \(super.frame)  \nnew: \(frame)")
+//        super.frame = frame
+//        }
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -27,29 +36,29 @@ class AVPlayerView: UIView {
     func playWithItem(item:AVPlayerItem) {
         avPlayer.replaceCurrentItem(with: item)
         avPlayer.volume = 0
-        avPlayer.play()
+        
     }
     
     
     func setupView() {
         avPlayer = AVPlayer.init()
-        //设置大小和位置（全屏）
+        
         avPlayerLayer = AVPlayerLayer(player: avPlayer)
         self.layer.addSublayer(avPlayerLayer)
+        
+//        self.backgroundColor = UIColor.red
     }
 
     
     override func layoutSubviews() {
         
-        print("layoutSubviews \(self.frame)")
-        print("avPlayerLayer.frame \(avPlayerLayer.frame)")
+//        CATransaction.begin()
+//        CATransaction.setDisableActions(true)
+        print("self.bounds : \(self.bounds)")
+        print("self.avPlayerLayer.bounds : \(self.avPlayerLayer.bounds)")
         
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
         avPlayerLayer.frame = self.bounds
-//        avPlayerLayer.frame = CGRect.init(x: 0, y: 0, width: self.bounds.size.width*0.9, height: self.bounds.size.height)
-        
-         CATransaction.commit()
+//        CATransaction.commit()
         
         super.layoutSubviews()
     }

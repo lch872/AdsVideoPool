@@ -9,9 +9,18 @@
 import UIKit
 import AVKit
 import SnapKit
+public enum kJPPlayUnreachCellStyle : Int {
+    
+    case none // normal 播放滑动可及cell.
+    
+    case up // top 顶部不可及.
+    
+    case down // bottom 底部不可及.
+}
 
 class MainViewCell: UITableViewCell {
     
+    public var cellStyle : kJPPlayUnreachCellStyle? // cell类型
     
     var data:[String:String] = ["":""]
     {
@@ -25,7 +34,7 @@ class MainViewCell: UITableViewCell {
     var playerView = AVPlayerView()
     
     var screenImg = UIView()
-    
+    var videoPath = String()
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.backgroundColor = UIColor.clear;
@@ -38,24 +47,18 @@ class MainViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addView(view:CALayer){
-        print("add ----- ")
-        print(self.playerView.frame)
-        print(self.playerView)
-        
-            
-        CATransaction.begin()
-        CATransaction.setDisableActions(true)
-        view.frame = self.playerView.bounds
-        CATransaction.commit()
-        
-        
-        self.playerView.layer.addSublayer(view)
-        self.playerView.avPlayerLayer = view as! AVPlayerLayer
-        
-        
-        print("already did it \(view.frame)")
-
+    func addView(view:AVPlayerView){
+        self.playerView.removeFromSuperview()
+//        view.backgroundColor = UIColor.red
+        view.frame = CGRect.init(x: 0, y: 0, width: self.bgView.frame.size.width, height: view.frame.size.height)
+        view.avPlayerLayer.frame = view.bounds
+        self.bgView.addSubview(view)
+        self.playerView = view
+//        
+//        
+//        print(self.frame)
+//        print(self.playerView.frame)
+//        print(self.playerView.avPlayerLayer.frame)
     }
     
     var tagL = UILabel()
@@ -78,6 +81,15 @@ class MainViewCell: UITableViewCell {
 //        avPlayer.play()
     }
     
+    func playVideo(){
+        self.playerView.avPlayer.play()
+    }
+    
+    func stopVideo(){
+        print("tingzhi l    ")
+        self.playerView.avPlayer.pause()
+    }
+    
     
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -88,17 +100,20 @@ class MainViewCell: UITableViewCell {
     }
     func setupView() {
         print("创建")
-        bgView = UIView.init(frame: CGRect.init(x: 20, y: 0, width: SCREEN_WIDTH-40, height: (SCREEN_WIDTH-40)*1.3))
+        bgView = UIView.init(frame: CGRect.init(x: 20, y: 0, width: SCREEN_WIDTH-40, height: (SCREEN_WIDTH-40)))
         bgView.layer.cornerRadius = 15;
         bgView.layer.masksToBounds = true;
         bgView.backgroundColor = UIColor.white
         self.contentView.addSubview(bgView)
         
-        let div:Float = 0.56
+        let div:Float = 0.5625
         playerView = AVPlayerView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*bgView.bounds.width))
+        
+//        playerView.layer.cornerRadius = 15;
+//        playerView.layer.masksToBounds = true;
+        
         bgView.addSubview(playerView)
 
-        
         
         
         let padding:CGFloat = 18
@@ -111,7 +126,7 @@ class MainViewCell: UITableViewCell {
         bgView.addSubview(tagL)
         tagL.snp.makeConstraints { (make) in
             make.left.equalTo(padding)
-            make.top.equalTo(playerView.snp.bottom).offset(+20)
+            make.top.equalTo(bgView.snp.top).offset(+210+20)
         }
         
         

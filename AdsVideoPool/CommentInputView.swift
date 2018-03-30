@@ -7,9 +7,14 @@
 //
 
 import UIKit
+import MBProgressHUD
+class CommentInputView: UIView, UITextFieldDelegate {
 
-class CommentView: UIView {
-
+    
+    var click:(Bool)->Void = { (name:Bool) -> Void in
+        print("\(name)")
+    }
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor.white
@@ -35,14 +40,38 @@ class CommentView: UIView {
         textF.layer.borderWidth = 0.5;
         textF.layer.cornerRadius = 14;
         textF.layer.borderColor = UIColor.lightGray.cgColor
+        textF.returnKeyType = .send
+        textF.delegate = self
         self.addSubview(textF)
         
+      
         //按钮
         let btn = UIButton.init(frame: CGRect.init(x: textF.frame.maxX + 10, y: 10, width: 30, height: 30))
+        btn.addTarget(self, action: #selector(buttonDidClick), for: .touchUpInside)
+        btn.setImage(UIImage.init(named: "cm2_act_icn_cmt_prs"), for: .selected)
         btn.setImage(UIImage.init(named: "top"), for: .normal)
         self.addSubview(btn)
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
         
+        self.endEditing(true)
+        //只显示文字
+        let hud = MBProgressHUD.showAdded(to: self.superview!, animated: true)
+        hud.mode = .text
+        hud.label.text = "发表成功!"
+        hud.margin = 10
+        hud.offset.y = 50
+        hud.removeFromSuperViewOnHide = true
+        hud.hide(animated: true, afterDelay: 2.0)
         
-        
+        return true
+
+    }
+    
+    @objc func buttonDidClick(_ btn:UIButton){
+        btn.isSelected = !btn.isSelected
+        self.click(!btn.isSelected)
     }
 }

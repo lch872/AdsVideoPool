@@ -35,23 +35,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         nav.tabBarItem.title = "首页"
         nav.tabBarItem.image = UIImage.init(named: "main")
         
-        let focus = UITableViewController.init(style: .plain)
+        let focus = MomentTableView.init(style: .plain)
         focus.tabBarItem.title = "动态"
         focus.tabBarItem.image = UIImage.init(named: "focus")
+        let nav2 = UINavigationController.init(rootViewController: focus)
         
-        let mine = UITableViewController.init(style: .plain)
+        let mine = MineView.init()
         mine.tabBarItem.title = "我"
         mine.tabBarItem.image = UIImage.init(named: "mine")
         
-        
-        tabbar.addChildViewController(nav)
-        tabbar.addChildViewController(focus)
         tabbar.addChildViewController(mine)
+        tabbar.addChildViewController(nav2)
+        tabbar.addChildViewController(nav)
         
-    
+        
         self.window!.rootViewController = tabbar
         
+        
+        
         self.window!.makeKeyAndVisible()
+        
         
         
         return true

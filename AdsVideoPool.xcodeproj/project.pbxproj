@@ -14,14 +14,23 @@
 		574EF124205FC61C00219685 /* 4.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 574EF123205FC61C00219685 /* 4.mp4 */; };
 		575144F52068A2D8004EC1F4 /* 2.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 575144F42068A2D8004EC1F4 /* 2.mp4 */; };
 		5751451520690A60004EC1F4 /* MYLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5751451420690A60004EC1F4 /* MYLayer.swift */; };
+		5765B7B4206DE2D100CB6274 /* MomentTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5765B7B3206DE2D100CB6274 /* MomentTableView.swift */; };
+		5765B7B6206DE30B00CB6274 /* MomentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5765B7B5206DE30B00CB6274 /* MomentCell.swift */; };
+		5765B7BE206DEF9000CB6274 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5765B7BC206DEF9000CB6274 /* LoginView.swift */; };
+		5765B7BF206DEF9000CB6274 /* LoginView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5765B7BD206DEF9000CB6274 /* LoginView.xib */; };
+		5765B7C8206E171E00CB6274 /* logo-w.png in Resources */ = {isa = PBXBuildFile; fileRef = 5765B7C7206E171E00CB6274 /* logo-w.png */; };
+		5765B7CA206E1BF200CB6274 /* bgView.JPG in Resources */ = {isa = PBXBuildFile; fileRef = 5765B7C9206E1BF200CB6274 /* bgView.JPG */; };
+		5765B7CD206E23CD00CB6274 /* MineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5765B7CB206E23CD00CB6274 /* MineView.swift */; };
+		5765B7CE206E23CD00CB6274 /* MineView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5765B7CC206E23CD00CB6274 /* MineView.xib */; };
 		5766501C205B651C0027AE95 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5766501B205B651C0027AE95 /* AppDelegate.swift */; };
 		57665021205B651C0027AE95 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 5766501F205B651C0027AE95 /* Main.storyboard */; };
 		57665023205B651C0027AE95 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57665022205B651C0027AE95 /* Assets.xcassets */; };
 		57665026205B651C0027AE95 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 57665024205B651C0027AE95 /* LaunchScreen.storyboard */; };
 		576DA1A02064CFDB00219947 /* AVPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576DA19F2064CFDB00219947 /* AVPlayerView.swift */; };
 		576FE96C2060B773006F3910 /* VideoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576FE96B2060B773006F3910 /* VideoDetailView.swift */; };
-		576FE9702060F8F2006F3910 /* CommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576FE96F2060F8F2006F3910 /* CommentView.swift */; };
+		576FE9702060F8F2006F3910 /* CommentInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576FE96F2060F8F2006F3910 /* CommentInputView.swift */; };
 		576FE97220610113006F3910 /* CommentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 576FE97120610113006F3910 /* CommentCell.swift */; };
+		577A2AD0206B428E00C53F98 /* pinglun.json in Resources */ = {isa = PBXBuildFile; fileRef = 577A2ACF206B428E00C53F98 /* pinglun.json */; };
 		577EEE04206201F900EB0E7D /* PostInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577EEE03206201F900EB0E7D /* PostInfoView.swift */; };
 		577EEE06206209E000EB0E7D /* AppTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577EEE05206209E000EB0E7D /* AppTool.swift */; };
 		577EEE082062507400EB0E7D /* 1111.png in Resources */ = {isa = PBXBuildFile; fileRef = 577EEE072062507400EB0E7D /* 1111.png */; };
@@ -39,6 +48,14 @@
 		574EF123205FC61C00219685 /* 4.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 4.mp4; sourceTree = "<group>"; };
 		575144F42068A2D8004EC1F4 /* 2.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 2.mp4; sourceTree = "<group>"; };
 		5751451420690A60004EC1F4 /* MYLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MYLayer.swift; sourceTree = "<group>"; };
+		5765B7B3206DE2D100CB6274 /* MomentTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentTableView.swift; sourceTree = "<group>"; };
+		5765B7B5206DE30B00CB6274 /* MomentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MomentCell.swift; sourceTree = "<group>"; };
+		5765B7BC206DEF9000CB6274 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		5765B7BD206DEF9000CB6274 /* LoginView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginView.xib; sourceTree = "<group>"; };
+		5765B7C7206E171E00CB6274 /* logo-w.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-w.png"; sourceTree = "<group>"; };
+		5765B7C9206E1BF200CB6274 /* bgView.JPG */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = bgView.JPG; sourceTree = "<group>"; };
+		5765B7CB206E23CD00CB6274 /* MineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MineView.swift; sourceTree = "<group>"; };
+		5765B7CC206E23CD00CB6274 /* MineView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MineView.xib; sourceTree = "<group>"; };
 		57665018205B651C0027AE95 /* AdsVideoPool.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AdsVideoPool.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5766501B205B651C0027AE95 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		57665020205B651C0027AE95 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -47,8 +64,9 @@
 		57665027205B651C0027AE95 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		576DA19F2064CFDB00219947 /* AVPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AVPlayerView.swift; sourceTree = "<group>"; };
 		576FE96B2060B773006F3910 /* VideoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoDetailView.swift; sourceTree = "<group>"; };
-		576FE96F2060F8F2006F3910 /* CommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentView.swift; sourceTree = "<group>"; };
+		576FE96F2060F8F2006F3910 /* CommentInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentInputView.swift; sourceTree = "<group>"; };
 		576FE97120610113006F3910 /* CommentCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentCell.swift; sourceTree = "<group>"; };
+		577A2ACF206B428E00C53F98 /* pinglun.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pinglun.json; sourceTree = "<group>"; };
 		577EEE03206201F900EB0E7D /* PostInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfoView.swift; sourceTree = "<group>"; };
 		577EEE05206209E000EB0E7D /* AppTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTool.swift; sourceTree = "<group>"; };
 		577EEE072062507400EB0E7D /* 1111.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1111.png; sourceTree = "<group>"; };
@@ -97,11 +115,17 @@
 			children = (
 				574ED4C22064EE6A00C20B42 /* MainTableView.swift */,
 				574ED4BD2064EDBE00C20B42 /* MainViewCell.swift */,
+				5765B7B3206DE2D100CB6274 /* MomentTableView.swift */,
+				5765B7B5206DE30B00CB6274 /* MomentCell.swift */,
 				5766501B205B651C0027AE95 /* AppDelegate.swift */,
 				577EEE03206201F900EB0E7D /* PostInfoView.swift */,
+				5765B7BC206DEF9000CB6274 /* LoginView.swift */,
+				5765B7BD206DEF9000CB6274 /* LoginView.xib */,
+				5765B7CB206E23CD00CB6274 /* MineView.swift */,
+				5765B7CC206E23CD00CB6274 /* MineView.xib */,
 				577EEE05206209E000EB0E7D /* AppTool.swift */,
 				576FE96B2060B773006F3910 /* VideoDetailView.swift */,
-				576FE96F2060F8F2006F3910 /* CommentView.swift */,
+				576FE96F2060F8F2006F3910 /* CommentInputView.swift */,
 				576FE97120610113006F3910 /* CommentCell.swift */,
 				576DA19F2064CFDB00219947 /* AVPlayerView.swift */,
 				5751451420690A60004EC1F4 /* MYLayer.swift */,
@@ -111,6 +135,9 @@
 				574EF123205FC61C00219685 /* 4.mp4 */,
 				575144F42068A2D8004EC1F4 /* 2.mp4 */,
 				574EF121205FB89000219685 /* 3.mp4 */,
+				5765B7C9206E1BF200CB6274 /* bgView.JPG */,
+				577A2ACF206B428E00C53F98 /* pinglun.json */,
+				5765B7C7206E171E00CB6274 /* logo-w.png */,
 				57665022205B651C0027AE95 /* Assets.xcassets */,
 				57665024205B651C0027AE95 /* LaunchScreen.storyboard */,
 				57665027205B651C0027AE95 /* Info.plist */,
@@ -189,13 +216,18 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5765B7CE206E23CD00CB6274 /* MineView.xib in Resources */,
 				574EF124205FC61C00219685 /* 4.mp4 in Resources */,
 				572C048A206369B200C83815 /* 123.png in Resources */,
+				5765B7CA206E1BF200CB6274 /* bgView.JPG in Resources */,
 				575144F52068A2D8004EC1F4 /* 2.mp4 in Resources */,
 				57665026205B651C0027AE95 /* LaunchScreen.storyboard in Resources */,
+				5765B7C8206E171E00CB6274 /* logo-w.png in Resources */,
 				57665023205B651C0027AE95 /* Assets.xcassets in Resources */,
 				577EEE082062507400EB0E7D /* 1111.png in Resources */,
+				577A2AD0206B428E00C53F98 /* pinglun.json in Resources */,
 				57665021205B651C0027AE95 /* Main.storyboard in Resources */,
+				5765B7BF206DEF9000CB6274 /* LoginView.xib in Resources */,
 				574EF122205FB89000219685 /* 3.mp4 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,14 +287,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5765B7B4206DE2D100CB6274 /* MomentTableView.swift in Sources */,
 				574ED4C32064EE6A00C20B42 /* MainTableView.swift in Sources */,
 				576FE96C2060B773006F3910 /* VideoDetailView.swift in Sources */,
+				5765B7CD206E23CD00CB6274 /* MineView.swift in Sources */,
 				5766501C205B651C0027AE95 /* AppDelegate.swift in Sources */,
-				576FE9702060F8F2006F3910 /* CommentView.swift in Sources */,
+				576FE9702060F8F2006F3910 /* CommentInputView.swift in Sources */,
 				576FE97220610113006F3910 /* CommentCell.swift in Sources */,
 				5751451520690A60004EC1F4 /* MYLayer.swift in Sources */,
+				5765B7B6206DE30B00CB6274 /* MomentCell.swift in Sources */,
 				576DA1A02064CFDB00219947 /* AVPlayerView.swift in Sources */,
 				574ED4BF2064EDBE00C20B42 /* MainViewCell.swift in Sources */,
+				5765B7BE206DEF9000CB6274 /* LoginView.swift in Sources */,
 				577EEE04206201F900EB0E7D /* PostInfoView.swift in Sources */,
 				577EEE06206209E000EB0E7D /* AppTool.swift in Sources */,
 			);
