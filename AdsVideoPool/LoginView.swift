@@ -22,12 +22,14 @@ class LoginView: UIViewController {
         UIView.animate(withDuration: 10.0) {
             self.logoView.alpha = 1
             self.bgView.transform = CGAffineTransform.identity
+            
         }
     }
     
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
     
     
     override func viewDidLoad() {

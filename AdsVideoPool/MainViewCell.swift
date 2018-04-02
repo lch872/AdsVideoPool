@@ -155,7 +155,22 @@ class MainViewCell: UITableViewCell {
 
     }
     
-
+    func getImage(videoUrl:URL) -> UIImage {
+        
+        let filePath = Bundle.main.path(forResource: "4", ofType: "mp4")
+        let videoURL = NSURL(fileURLWithPath: filePath!)
+        let avAsset = AVAsset.init(url: videoURL as URL)
+        
+        //生成视频截图
+        let generator = AVAssetImageGenerator(asset: avAsset)
+        generator.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(0.0,600)
+        var actualTime:CMTime = CMTimeMake(0,0)
+        let imageRef:CGImage = try! generator.copyCGImage(at: time, actualTime: &actualTime)
+        let frameImg = UIImage.init(cgImage: imageRef)
+        
+        return frameImg
+    }
     
     
  

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVKit
 
 class MomentCell: UITableViewCell {
 
@@ -126,13 +127,14 @@ class MomentCell: UITableViewCell {
     }
     
     @objc func replyBtnClick() {
-        let  login = LoginView()
-        UIApplication.shared.keyWindow?.rootViewController?.present(login, animated: true, completion: nil)
+        AppTool.checkLogin()
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         // Configure the view for the selected state
     }
+    
+   
 
 }

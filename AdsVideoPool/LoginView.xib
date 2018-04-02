@@ -159,7 +159,7 @@
                     </constraints>
                 </stackView>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="29m-qO-wbe">
-                    <rect key="frame" x="200.5" y="629" width="76" height="30"/>
+                    <rect key="frame" x="200.5" y="630" width="76" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="76" id="XC7-Ue-W9Z"/>
                         <constraint firstAttribute="height" constant="30" id="nJk-Ex-aZu"/>
@@ -223,7 +223,7 @@
                 <constraint firstItem="XVl-HN-Mtx" firstAttribute="leading" secondItem="fnl-2z-Ty3" secondAttribute="leading" constant="16" id="OrF-bZ-1y1"/>
                 <constraint firstItem="i15-z8-Rcd" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="PNJ-zj-dgP"/>
                 <constraint firstItem="fx2-OB-aoC" firstAttribute="top" secondItem="nbi-Bg-pkz" secondAttribute="bottom" id="R3D-b4-tZe"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="29m-qO-wbe" secondAttribute="bottom" constant="8" id="UIq-82-1Lx"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="29m-qO-wbe" secondAttribute="bottom" constant="7" id="UIq-82-1Lx"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="1tc-3L-nqG" secondAttribute="bottom" constant="12" id="W42-pN-f4e"/>
                 <constraint firstItem="LDZ-0n-gQY" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="WAB-Fh-qfx"/>
                 <constraint firstItem="1tc-3L-nqG" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" constant="-35" id="X0k-TX-gMJ"/>
