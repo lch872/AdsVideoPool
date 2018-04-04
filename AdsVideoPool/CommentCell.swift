@@ -124,15 +124,13 @@ class CommentCell: UITableViewCell {
         
         textLL.textColor = UIColor.init(white: 50/255.0, alpha: 1)
         self.contentView.addSubview(textLL)
-//        textLL.snp.makeConstraints { make in
-//            make.top.equalTo(icon.snp.bottom).offset(+padding)
-//        }
-        
     }
     
     @objc func likeBtnClick(_ btn:UIButton) {
         btn.isSelected = !btn.isSelected
         likeNumber.textColor = btn.isSelected ? (UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1)) : UIColor.init(white: 168/255.0, alpha: 1)
     }
+    
+    
 
 }

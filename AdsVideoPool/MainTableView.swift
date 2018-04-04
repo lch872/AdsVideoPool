@@ -17,11 +17,15 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         self.tableView.separatorStyle = .none
         self.tableView.register(MainViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         self.tableView.delaysContentTouches = false
+        
+//        self.tableView.tableHeaderView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 300))
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.delegate = self
         self.navigationController?.setNavigationBarHidden(true, animated: false)
+        
+//        scrollViewDidScroll(tableView.cont)
     }
 
     // MARK: - Table view data source
@@ -45,7 +49,7 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
     //点击
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let detail = VideoDetailView()
-        detail.bgImg = imageFromView()
+        detail.bgImg = imageFromView(view: self.view)
         detail.data = JSON[indexPath.row%2]
         detail.currentIndex = indexPath
         
@@ -82,14 +86,7 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         return self
     }
     
-    func imageFromView() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.view.frame.size, false, UIScreen.main.scale);
-        let context = UIGraphicsGetCurrentContext()
-        self.view.layer.render(in: context!)
-        let img = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return img!
-    }
+    
     
     
     override func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
@@ -123,26 +120,14 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         let fromView = cell.playerView
         let containerView = transitionContext.containerView
         
-        
-//        snapShotView.frame = containerView.convert(fromView.frame, from: fromView.superview!)
-            fromView.frame = containerView.convert(fromView.frame, from: fromView.superview!)
-//        let snapShotView = UIView.init(frame: containerView.convert(fromView.frame, from: fromView.superview!))
-//        let playLayer = cell.playerView.avPlayerLayer
-//        snapShotView.layer.addSublayer(playLayer)
-        let original = fromView.avPlayerLayer.frame.size.width
-        print("original : \(original)")
-        
+        fromView.frame = containerView.convert(fromView.frame, from: fromView.superview!)
         
         toVC.view.frame = transitionContext.finalFrame(for: toVC)
         toVC.view.alpha = 0;
         toView.isHidden = true;
         
-        
         containerView.addSubview(toVC.view)
         containerView.addSubview(fromView)
-        print("zhiqian 2: \(fromView.frame)")
-        
-        let hei:CGFloat = fromView.avPlayerLayer.frame.size.height
         
         UIView.animate(withDuration: self.transitionDuration(using:transitionContext), delay: 0.0, usingSpringWithDamping: 0.8, initialSpringVelocity: 1, options:.curveLinear, animations: {
             containerView.layoutIfNeeded()
@@ -152,21 +137,14 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             
             let mee = containerView.convert(toView.frame, from: toView.superview)
             print(mee)
-            let scale = mee.size.height/hei
-            print(scale)
-            
-            
-//            fromView.transform = CGAffineTransform.init(scaleX: scale, y: scale)
+
             fromView.frame = mee
              JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.currentPlayerLayer?.frame = fromView.bounds
             
             }) { (finished) -> Void in
                 toView.isHidden = false
                 fromView.isHidden = false
-//                playLayer.removeFromSuperlayer()
-//                fromView.removeFromSuperview()
                 toVC.addView(view: fromView)
-               
                 transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
             }
     
@@ -174,46 +152,9 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
     
     
     var lastScrollOffset:CGFloat = 0
-//    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//
-//        let y = scrollView.contentOffset.y
-//        var num = 0.8
-//        if (y < self.lastScrollOffset) {
-//            //用户往上拖动，也就是屏幕内容向下滚动
-//            print("用户往上拖动")
-//            num = 0.2
-//        }
-//        self.lastScrollOffset = y
-//        self.playVideoInVisiableCells()
-//    }
     
     
     var playingCell = MainViewCell()
-    
-//    func playVideoInVisiableCells(num:CGFloat) {
-//        let arr = self.tableView.visibleCells as! [MainViewCell]
-//        var finnalCell =  MainViewCell()
-//        var gap:CGFloat = 100.0
-//        for item:MainViewCell in arr {
-//                let coorCentre = item.superview?.convert(item.center, to: nil)
-//            print("--------")
-//                print(coorCentre!.y)
-//            let delta = fabs(coorCentre!.y-SCREEN_HEIGHT*num)
-//                print(delta)
-//
-//            if delta<gap {
-//                    gap = delta;
-//                    finnalCell = item
-//                    nowPlayer.avPlayer.pause()
-//                    nowPlayer = finnalCell.playerView
-//                    nowPlayer.avPlayer.play()
-//                }
-//            }
-//
-//        print(finnalCell)
-//         finnalCell.playVideo()
-//    }
-    
 
         // Find first cell need play video in visiable cells.
         func playVideoInVisiableCells() {
@@ -235,7 +176,7 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             playingCell = videoCell
             
             // display status view.
-            videoCell.playerView.jp_playVideoMutedDisplayStatusView(with: URL(string: videoCell.videoPath))
+//            videoCell.playerView.jp_playVideoMutedDisplayStatusView(with: URL(string: videoCell.videoPath))
             
             // hide status view.
             // videoCell.videoImv.jp_playVideoMuted(with: URL(string: videoCell.videoPath))
@@ -257,7 +198,9 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
                 let filePath = Bundle.main.path(forResource: bestCell.data["videoName"], ofType:nil)
                 let videoURL = URL(fileURLWithPath: filePath!)
                 // display status view.
-                bestCell.playerView.jp_playVideoMutedHiddenStatusView(with: videoURL)
+                
+                bestCell.playerView.jp_playVideo(with: videoURL, options: [.mutedPlay,.layerVideoGravityResizeAspect], progress: nil, completed: nil)
+//                bestCell.playerView.jp_playVideoMutedHiddenStatusView(with: videoURL)
                 
                 // hide status view.
                 // bestCell.videoImv.jp_playVideoMuted(with: url)
@@ -411,6 +354,17 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
                 let contain = windowRect.contains(coorPoint!)
                 return contain
             }
+            
+            
             return true
-}
+    }
+    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        playingCell.playerView.jp_stopPlay()
+//    }
+//
+//    override func viewDidAppear(_ animated: Bool) {
+//        playingCell.playerView.jp_resume()
+//    }
+//
 }

@@ -55,11 +55,17 @@ class PostInfoView: UIView {
         self.addSubview(title)
         
         //发布信息
-        let postTime = UILabel.init(frame: CGRect.init(x:padding, y: title.frame.maxY + 5, width: SCREEN_WIDTH, height: 15))
-        postTime.font = UIFont.systemFont(ofSize: 15)
+        let postTime = UILabel.init(frame: CGRect.init(x:padding, y: title.frame.maxY + 5, width: SCREEN_WIDTH - 100, height: 15))
+        postTime.font = UIFont.systemFont(ofSize: 14)
         postTime.textColor = UIColor.init(white: 168/255.0, alpha: 1)
-        postTime.text = "发布：2018-03-14     |     播放：987.2万"
+        postTime.text = "发布：2018-03-14  |  播放：987.2万  |  来源："
         self.addSubview(postTime)
+        
+        let btn = UIButton.init(frame: CGRect.init(x:postTime.frame.maxX, y: title.frame.maxY + 5, width: 100, height: 15))
+        btn.setImage(UIImage.init(named: "you.png"), for: .normal)
+        btn.imageView?.contentMode = .scaleAspectFit
+        btn.addTarget(self, action: #selector(sourceBtnDidClick), for: .touchUpInside)
+        self.addSubview(btn)
         
         
         let tag = tagBtn(name: "搞笑", frame: CGRect.init(x: padding, y: postTime.frame.maxY + padding, width: 40, height: 18.5))
@@ -86,15 +92,17 @@ class PostInfoView: UIView {
     }
     
     
-    func imgBtn(imgName:String, title:String, frame:CGRect) -> UIButton {
-        let btn = UIButton.init(frame: frame)
-        btn.setImage(UIImage.init(named: imgName), for: .normal)
-        btn.setTitle(title, for: .normal)
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
-        btn.setTitleColor(UIColor.init(white: 168/255.0, alpha: 1), for: .normal)
-        btn.titleEdgeInsets = UIEdgeInsets.init(top: btn.imageView!.frame.size.height, left: -btn.imageView!.frame.size.width, bottom: 0, right: 0)
-        btn.imageEdgeInsets = UIEdgeInsets.init(top: -btn.titleLabel!.bounds.size.height-5, left: 0, bottom: 0, right: -btn.titleLabel!.bounds.size.width)
-        return btn
+    @objc func sourceBtnDidClick(){
+        let webVC = UIViewController.init()
+        let nav = UINavigationController.init(rootViewController: webVC)
+        let web = UIWebView.init(frame: webVC.view.bounds)
+            webVC.view.addSubview(web)
+
+
+        
+        web.loadRequest(URLRequest.init(url: URL.init(string: "http://www.qq.com")!))
+        UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
+        
     }
     
     func tagBtn(name:String,frame:CGRect) -> UIButton {

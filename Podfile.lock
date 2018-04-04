@@ -1,21 +1,24 @@
 PODS:
+  - DGElasticPullToRefresh (1.1)
   - JPVideoPlayer (2.4.0)
   - Kingfisher (4.2.0)
   - MBProgressHUD (1.1.0)
   - SnapKit (4.0.0)
 
 DEPENDENCIES:
+  - DGElasticPullToRefresh
   - JPVideoPlayer
   - Kingfisher
   - MBProgressHUD
   - SnapKit
 
 SPEC CHECKSUMS:
+  DGElasticPullToRefresh: 28f11a6026302a90f8ffebbc6e24748e584dddd3
   JPVideoPlayer: 3f02427aaf9ac3f34fe7d54403f28adb1f187564
   Kingfisher: 9ee7e788d8ba07c3f21ce0d43f33cec310a4f781
   MBProgressHUD: e7baa36a220447d8aeb12769bf0585582f3866d9
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
 
-PODFILE CHECKSUM: 5fbc5a14da082f8067bbf4bf7d95beba89be4109
+PODFILE CHECKSUM: 66d22dcc9650865d23f1f00fe842cc47f5506f83
 
 COCOAPODS: 1.1.1

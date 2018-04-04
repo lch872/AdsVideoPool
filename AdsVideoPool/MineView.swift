@@ -25,6 +25,8 @@ class MineView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        self.navigationItem.title = "我"
+        
         tableview.dataSource = self
         tableview.delegate = self
         
@@ -35,8 +37,7 @@ class MineView: UIViewController, UITableViewDelegate, UITableViewDataSource {
         iconBtn.adjustsImageWhenHighlighted = false
         iconBtn.showsTouchWhenHighlighted = false
         
-        let dd = AdLinkView.init(frame: CGRect.init(x: 10, y: 500, width: SCREEN_WIDTH - 20, height: 60))
-        self.view.addSubview(dd)
+        
         
     }
 
@@ -68,6 +69,12 @@ class MineView: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
     
     @IBAction func downloadClick(_ sender: UIButton) {
+        let dd = AdLinkView.init(frame: CGRect.init(x: 10, y: SCREEN_HEIGHT, width: SCREEN_WIDTH - 20, height: 60))
+        self.view.addSubview(dd)
+        
+        UIView.animate(withDuration: 0.3) {
+            dd.frame = CGRect.init(x: 10, y: SCREEN_HEIGHT - 120, width: SCREEN_WIDTH - 20, height: 60)
+        }
     }
     
     @IBAction func iconBtnDidClick(_ sender: UIButton) {

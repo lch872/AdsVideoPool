@@ -31,7 +31,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         table.tableView!.backgroundColor = UIColor.init(red: 240/255.0, green: 240/255.0, blue: 240/255.0, alpha: 1)
         let nav = UINavigationController.init(rootViewController: table)
         
-        
         nav.tabBarItem.title = "首页"
         nav.tabBarItem.image = UIImage.init(named: "main")
         
@@ -44,10 +43,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         mine.tabBarItem.title = "我"
         mine.tabBarItem.image = UIImage.init(named: "mine")
         
-        tabbar.addChildViewController(mine)
-        tabbar.addChildViewController(nav2)
-        tabbar.addChildViewController(nav)
         
+        tabbar.addChildViewController(nav)
+        tabbar.addChildViewController(nav2)
+        tabbar.addChildViewController(mine)
         
         self.window!.rootViewController = tabbar
         

@@ -91,12 +91,37 @@ class MomentCell: UITableViewCell {
         textLL.numberOfLines = 0
         textLL.textColor = UIColor.init(white: 50/255.0, alpha: 1)
         self.contentView.addSubview(textLL)
+
         
+        let repostView = UIView.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: 80 + padding, width: textLL.frame.size.width, height: 90))
+        repostView.backgroundColor = UIColor.init(white: 240/255.0, alpha: 1)
+        repostView.layer.cornerRadius = 5
+        repostView.layer.masksToBounds = true
         
-        let reply = UIButton.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: 100 + padding, width: 28, height: 30))
-            reply.setTitle("回复", for: .normal)
-            reply.setTitleColor(UIColor.lightGray, for: .normal)
-            reply.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        let subImg = UIImageView.init(image: UIImage.init(named: "1111.png"))
+        subImg.frame = CGRect.init(x: 15, y: 11.5, width: 120, height: 67)
+        subImg.layer.cornerRadius = 5
+        subImg.layer.masksToBounds = true
+        repostView.addSubview(subImg)
+        
+        let lr = UILabel.init(frame: CGRect.init(x: subImg.frame.maxX + padding, y:11.5, width: repostView.frame.width-subImg.frame.maxX - 30, height: 30))
+        lr.font = UIFont.systemFont(ofSize: 13.0, weight: .bold)
+        lr.text = "知你喜好,为你调酒"
+        repostView.addSubview(lr)
+        
+        let tag = UILabel.init(frame: CGRect.init(x: subImg.frame.maxX + padding, y:lr.frame.maxY , width: repostView.frame.width-subImg.frame.maxX - 30, height: 30))
+        tag.font = UIFont.systemFont(ofSize: 12.0, weight:.thin)
+        tag.text = "#广告#"
+        repostView.addSubview(tag)
+        self.contentView.addSubview(repostView)
+        
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(tapAction))
+        repostView.addGestureRecognizer(tap)
+        
+        let reply = UIButton.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: repostView.frame.maxY + padding, width: 28, height: 30))
+        reply.setTitle("回复", for: .normal)
+        reply.setTitleColor(UIColor.lightGray, for: .normal)
+        reply.titleLabel?.font = UIFont.systemFont(ofSize: 13)
         reply.addTarget(self, action: #selector(replyBtnClick), for: .touchUpInside)
         self.contentView.addSubview(reply)
         
@@ -109,10 +134,10 @@ class MomentCell: UITableViewCell {
         
         
         
-        likeBtn = UIButton.init(frame: CGRect.init(x: 380, y: reply.frame.origin.y, width: 20, height: 20))
+        likeBtn = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH - 30, y: reply.frame.origin.y, width: 20, height: 20))
         likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praise_prs"), for: .normal)
         likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praised"), for: .selected)
-//        likeBtn.addTarget(self, action: #selector(likeBtnClick), for: .touchUpInside)
+        //        likeBtn.addTarget(self, action: #selector(likeBtnClick), for: .touchUpInside)
         likeBtn.center = CGPoint.init(x: likeBtn.center.x, y: reply.center.y)
         self.contentView.addSubview(likeBtn)
         
@@ -126,8 +151,22 @@ class MomentCell: UITableViewCell {
         
     }
     
+    @objc func tapAction() {
+    
+        let detail = VideoDetailView()
+        detail.data = JSON[0]
+        detail.currentIndex = IndexPath.init(row: -1, section: -1)
+        
+        UIApplication.shared.keyWindow?.rootViewController?.present(detail, animated: true, completion: nil)
+    }
+    
     @objc func replyBtnClick() {
-        AppTool.checkLogin()
+//        AppTool.checkLogin()
+        
+        let generator = UIImpactFeedbackGenerator.init(style: .light)
+        generator.prepare()
+        generator.impactOccurred()
+
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {

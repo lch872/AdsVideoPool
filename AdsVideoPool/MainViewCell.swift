@@ -31,7 +31,7 @@ class MainViewCell: UITableViewCell {
     }
     
     var isScaled = false
-    var playerView = AVPlayerView()
+    var playerView = UIImageView()
     
     var screenImg = UIView()
     var videoPath = String()
@@ -47,11 +47,11 @@ class MainViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addView(view:AVPlayerView){
+    func addView(view:UIImageView){
         self.playerView.removeFromSuperview()
 //        view.backgroundColor = UIColor.red
         view.frame = CGRect.init(x: 0, y: 0, width: self.bgView.frame.size.width, height: view.frame.size.height)
-        view.avPlayerLayer.frame = view.bounds
+//        view.avPlayerLayer.frame = view.bounds
         self.bgView.addSubview(view)
         self.playerView = view
 //        
@@ -73,29 +73,19 @@ class MainViewCell: UITableViewCell {
         
         let filePath = Bundle.main.path(forResource: data["videoName"], ofType:nil)
         let videoURL = URL(fileURLWithPath: filePath!)
-        let viewItem = AVPlayerItem.init(url: videoURL)
-        
-        playerView.playWithItem(item: viewItem)
-        //开始播放
-//        avPlayer.replaceCurrentItem(with: viewItem)
-//        avPlayer.play()
+        self.playerView.image = getImage(videoUrl: videoURL)
     }
-    
-    func playVideo(){
-        self.playerView.avPlayer.play()
-    }
-    
-    func stopVideo(){
-        print("tingzhi l    ")
-        self.playerView.avPlayer.pause()
-    }
-    
     
     override func layoutSubviews() {
         super.layoutSubviews()
         
         let div:Float = Float(data["height"]!)!/Float(data["width"]!)!
-        playerView.frame = CGRect.init(x: (-SCREEN_WIDTH+bgView.bounds.width)/2.0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*bgView.bounds.width)
+        var ddd:CGFloat = CGFloat(div)*bgView.bounds.width
+        print(div)
+        if  div > 1 {
+            ddd = 400;
+        }
+        playerView.frame = CGRect.init(x: (-SCREEN_WIDTH+bgView.bounds.width)/2.0, y: 0, width: SCREEN_WIDTH, height: ddd)
     
     }
     func setupView() {
@@ -107,27 +97,33 @@ class MainViewCell: UITableViewCell {
         self.contentView.addSubview(bgView)
         
         let div:Float = 0.5625
-        playerView = AVPlayerView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*bgView.bounds.width))
-        
-//        playerView.layer.cornerRadius = 15;
-//        playerView.layer.masksToBounds = true;
-        
+
+        playerView = UIImageView.init(frame:CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH-40, height: CGFloat(div)*bgView.bounds.width))
+        playerView.contentMode = .scaleAspectFit
         bgView.addSubview(playerView)
 
         
-        
         let padding:CGFloat = 18
         let width:CGFloat = self.bounds.width - padding*2
-        tagL = UILabel.init(frame: CGRect.init(x: 0, y:0, width: width, height: 20))
-        tagL.textColor = UIColor.lightGray
-        tagL.font = UIFont.boldSystemFont(ofSize: 15)
-        tagL.isOpaque = false
-       
-        bgView.addSubview(tagL)
-        tagL.snp.makeConstraints { (make) in
-            make.left.equalTo(padding)
-            make.top.equalTo(bgView.snp.top).offset(+210+20)
-        }
+//        tagL = UILabel.init(frame: CGRect.init(x: 0, y:0, width: width, height: 20))
+//        tagL.textColor = UIColor.lightGray
+//        tagL.font = UIFont.boldSystemFont(ofSize: 15)
+//        tagL.isOpaque = false
+//
+//        bgView.addSubview(tagL)
+//        tagL.snp.makeConstraints { (make) in
+//            make.left.equalTo(padding)
+//            make.top.equalTo(bgView.snp.top).offset(+210+20)
+//        }
+
+        let act = actionView(frame: CGRect.init(x: 0, y: 212, width: 375, height: 20))
+//        act.backgroundColor = UIColor.red
+        bgView.addSubview(act)
+//        act.snp.makeConstraints { (make) in
+//            make.left.equalTo(padding)
+//            make.top.equalTo(bgView.snp.top).offset(+210+20)
+//        }
+
         
         
         title = UILabel.init(frame: CGRect.init(x: 0, y: 0, width: width, height: 30))
@@ -135,8 +131,8 @@ class MainViewCell: UITableViewCell {
         title.isOpaque = false
         bgView.addSubview(title)
         title.snp.makeConstraints { (make) in
-            make.left.equalTo(tagL.snp.left)
-            make.top.equalTo(tagL.snp.bottom).offset(+10)
+            make.left.equalTo(act.snp.left)
+            make.top.equalTo(act.snp.bottom).offset(+10)
         }
         
         
@@ -148,7 +144,7 @@ class MainViewCell: UITableViewCell {
         detail.font = UIFont.boldSystemFont(ofSize: 16.0)
         bgView.addSubview(detail)
         detail.snp.makeConstraints { (make) in
-            make.left.equalTo(tagL.snp.left)
+            make.left.equalTo(act.snp.left)
             make.top.equalTo(title.snp.bottom).offset(+5)
             make.width.equalTo(bgView.snp.width).offset(-padding*2)
         }
@@ -157,9 +153,7 @@ class MainViewCell: UITableViewCell {
     
     func getImage(videoUrl:URL) -> UIImage {
         
-        let filePath = Bundle.main.path(forResource: "4", ofType: "mp4")
-        let videoURL = NSURL(fileURLWithPath: filePath!)
-        let avAsset = AVAsset.init(url: videoURL as URL)
+        let avAsset = AVAsset.init(url: videoUrl as URL)
         
         //生成视频截图
         let generator = AVAssetImageGenerator(asset: avAsset)

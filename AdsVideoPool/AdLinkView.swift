@@ -22,11 +22,10 @@ class AdLinkView: UIView {
 
     func setupView(){
         
-//        let img = UIImageView.init(image: UIImage.init(named: "icon.png"))
-//        img.contentMode = .scaleToFill
-//        img.frame = self.bounds
-//        self.addSubview(img)
-////
+        let img = UIImageView.init(image: UIImage.init(named: "icon2.png"))
+        img.contentMode = .scaleToFill
+        img.frame = self.bounds
+        self.addSubview(img)
         
         let effect = UIBlurEffect.init(style: .light)
         let effectView = UIVisualEffectView.init(effect: effect)
@@ -40,24 +39,40 @@ class AdLinkView: UIView {
         
         //图标
         let icon = UIImageView.init(frame: CGRect.init(x: 10, y: 2.5, width: 55, height: 55))
-        icon.image = UIImage.init(named: "icon.png")
+        icon.image = UIImage.init(named: "icon2.png")
         self.addSubview(icon)
         
         
         //title
         let labe = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + 5, y: icon.frame.origin.y + 5, width: 200, height: 20))
         labe.text = "绝地求生:刺激战场"
-        labe.font = UIFont.systemFont(ofSize: 14)
+        labe.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
+        labe.textColor = UIColor.white
         self.addSubview(labe)
         
         //sub-title
         let sub = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + 5, y: labe.frame.maxY + 3, width: 200, height: 20))
-         sub.font = UIFont.systemFont(ofSize: 12)
+         sub.font = UIFont.systemFont(ofSize: 12.0, weight: .semibold)
         sub.text = "正版吃鸡 新春全新版本"
+        sub.textColor = UIColor.white
         self.addSubview(sub)
+        
+        //ddd
+        let focus = UIButton.init(frame: CGRect.init(x: self.frame.width - 70,   y: self.frame.height/2-10, width: 50, height: 20))
+        focus.setTitle("获 取", for: .normal)
+        focus.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
+        focus.setBackgroundImage(UIImage.init(named: "cm4_list_btn_focus_prs"), for: .normal)
+        focus.setBackgroundImage(UIImage.init(named: "cm4_list_btn_focus_prs"), for: .highlighted)
+        focus.setTitleColor(UIColor.white, for: .normal)
+        self.addSubview(focus)
         
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
-        
     }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let url = URL.init(string: "https://itunes.apple.com/cn/app/id1321803705")
+        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+    }
+    
 }

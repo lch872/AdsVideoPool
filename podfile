@@ -5,4 +5,5 @@ pod 'SnapKit'
 pod 'Kingfisher'
 pod 'MBProgressHUD'
 pod 'JPVideoPlayer'
+pod 'DGElasticPullToRefresh'
 end

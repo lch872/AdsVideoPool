@@ -13,10 +13,9 @@ import JPVideoPlayer
 
 class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecognizerDelegate, UINavigationControllerDelegate, UIViewControllerTransitioningDelegate, UIViewControllerAnimatedTransitioning, UITableViewDelegate {
     
-    var data:[String:String] = ["":""]
+    var data:[String:Any]!
     {
-        didSet
-        {
+        didSet{
             setupView()
         }
     }
@@ -29,7 +28,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     var  textView = CommentInputView()
     var table = UITableView()
-    var playerView = AVPlayerView()
+    var playerView = UIImageView()
       var bgImg = UIImage()
     var mainView = UIView()
     var cellRect = CGRect()
@@ -43,7 +42,9 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         jsonDic = try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
         
 
-
+//      let yy = UIImageView.init(image: imageFromView(view: self.view))
+//        yy.frame = self.view.bounds
+//        self.view.insertSubview(yy, belowSubview: mainView)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -66,10 +67,10 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
     }
 
-    func addView(view:UIView){
+    func addView(view:UIImageView){
         self.playerView.removeFromSuperview()
         self.mainView.addSubview(view)
-        self.playerView = view as! AVPlayerView
+        self.playerView = view
         self.playerView.isUserInteractionEnabled = false
         
         mainView.bringSubview(toFront: close)
@@ -77,14 +78,13 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     
     var close = UIButton()
+    
     func setupView() {
         
         let bgImageView = UIImageView.init(frame: self.view.bounds)
         bgImageView.image = bgImg
         self.view.addSubview(bgImageView)
         
-        let imageData = UIImageJPEGRepresentation(bgImg, 1.0) as! NSData
-        imageData.write(toFile: "/Users/lch/Desktop/111.png", atomically: true)
         
         
         
@@ -105,8 +105,10 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         self.view.addSubview(mainView)
         
 //        // 播放器
-        let div:Float = Float(data["height"]!)!/Float(data["width"]!)!
-        playerView = AVPlayerView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*SCREEN_WIDTH))
+//        let div:Float = Float(data["height"] as! String)!/Float(data["width"]as! String)!
+        
+        let div = 0.564
+        playerView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*SCREEN_WIDTH))
         mainView.addSubview(playerView)
 
 
@@ -142,12 +144,12 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         }
         mainView.addSubview(textView)
         
-        
-        close = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH-40, y: 10, width: 30, height: 30))
-        close.setImage(UIImage.init(named: "close"), for: .normal)
-        mainView.addSubview(close)
-        close.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
-        
+//        
+//        close = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH-40, y: 10, width: 30, height: 30))
+//        close.setImage(UIImage.init(named: "close"), for: .normal)
+//        mainView.addSubview(close)
+//        close.addTarget(self, action: #selector(popViewController), for: .touchUpInside)
+//        
     }
     
     @objc func popViewController() {
@@ -275,9 +277,13 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < 0 {
-            scrollView.contentOffset.y = 0
+        print(scrollView.contentOffset.y)
+        if scrollView.contentOffset.y < -40 {
+            self.dismiss(animated: true, completion: nil)
         }
+        //        if scrollView.contentOffset.y < 0 {
+//            scrollView.contentOffset.y = 0
+//        }
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -347,14 +353,26 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             fromView.isHidden = false
             toView?.isHidden = false
             fromView.removeFromSuperview()
-            cell!.addView(view: fromView as! AVPlayerView)
+            cell!.addView(view: fromView)
             fromView.layer.mask = nil
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
     }
     
+
+    
     override func viewDidAppear(_ animated: Bool) {
+        
+        let filePath = Bundle.main.path(forResource: self.data["videoName"] as? String, ofType:nil)
+        let videoURL = URL(fileURLWithPath: filePath!)
+        
+        let ddd = self.playerView.jp_videoLayer
+        
+        print(ddd)
+        
+        self.playerView.jp_playVideoMutedHiddenStatusView(with: videoURL)
+        
         self.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
     }
 
