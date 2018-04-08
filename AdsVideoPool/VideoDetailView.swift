@@ -64,7 +64,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.delegate = self;
-        
+         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
 
     func addView(view:UIImageView){
@@ -121,7 +121,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         table.delegate = self
         
         
-        table.register(CommentCell.self, forCellReuseIdentifier: "aCell")
+        table.register(MomentCell.self, forCellReuseIdentifier: "aCell")
         table.rowHeight = 150
         
         
@@ -130,7 +130,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         mainView.addSubview(table)
         
-        let head = PostInfoView.init(frame: CGRect.init(x: 0, y: 0, width: table.bounds.width, height: 200))
+        let head = PostInfoView.init(frame: CGRect.init(x: 0, y: 0, width: table.bounds.width, height: 400))
         table.tableHeaderView = head
         
         //MARK: 评论
@@ -158,8 +158,30 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         self.navigationController?.popViewController(animated: true)
     }
     
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return "精彩评论"
+//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+//        return "精彩评论"
+//    }
+    
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        // create the parent view that will hold header Label
+        let customView = UIView.init(frame: CGRect.init(x: 10, y: 0, width: 300, height:    28))
+        customView.backgroundColor = UIColor.init(white: 247/255.0, alpha: 1)
+        
+        
+        // create the button object
+        let headerLabel = UILabel.init(frame: CGRect.zero)
+        headerLabel.backgroundColor = UIColor.clear
+        headerLabel.isOpaque = false
+        headerLabel.textColor = UIColor.black
+        headerLabel.highlightedTextColor = UIColor.white
+        headerLabel.font = UIFont.systemFont(ofSize: 13)
+        headerLabel.frame = CGRect.init(x: 10, y: 0, width: 300, height:28)
+
+
+        headerLabel.text = "用户评论"
+        customView.addSubview(headerLabel)
+        return customView;
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -167,10 +189,38 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         return dd.count
     }
     
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 1
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+//        if indexPath.section == 0 {
+////            let cell = tableView.dequeueReusableCell(withIdentifier: "aCell", for: indexPath) as! CommentCell
+//
+//            let cell = UITableViewCell.init(style: .default, reuseIdentifier: "oolol")
+//            cell.contentView.subviews.forEach({ (view) in
+//                view.removeFromSuperview()
+//            })
+//            
+//            let scr = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 80))
+////            scr.backgroundColor = UIColor.red
+//            scr.contentSize = CGSize.init(width: 197*6+5, height: 80)
+//            scr.showsHorizontalScrollIndicator = false
+//            cell.contentView.addSubview(scr)
+//            for index in 0...5 {
+//                let ll = UIView.init(frame: CGRect.init(x: 5+index*(192+5), y: 0, width: 192, height: 80))
+//                ll.backgroundColor = UIColor.init(white: 240/255.0, alpha: 1)
+//                ll.layer.cornerRadius = 10.0
+//                ll.layer.masksToBounds = true
+//                scr.addSubview(ll)
+//            }
+//            return cell
+//        }
+//        
         let arr = jsonDic["itemList"] as! NSArray
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "aCell", for: indexPath) as! CommentCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "aCell", for: indexPath) as! MomentCell
         cell.selectionStyle = .none
         cell.frame = CGRect.init(x: -5, y: -20, width: cell.frame.size.width-10, height: cell.frame.size.height)
         

@@ -55,13 +55,13 @@ class PostInfoView: UIView {
         self.addSubview(title)
         
         //发布信息
-        let postTime = UILabel.init(frame: CGRect.init(x:padding, y: title.frame.maxY + 5, width: SCREEN_WIDTH - 100, height: 15))
+        let postTime = UILabel.init(frame: CGRect.init(x:padding, y: title.frame.maxY + 5, width: SCREEN_WIDTH - 115, height: 15))
         postTime.font = UIFont.systemFont(ofSize: 14)
         postTime.textColor = UIColor.init(white: 168/255.0, alpha: 1)
         postTime.text = "发布：2018-03-14  |  播放：987.2万  |  来源："
         self.addSubview(postTime)
         
-        let btn = UIButton.init(frame: CGRect.init(x:postTime.frame.maxX, y: title.frame.maxY + 5, width: 100, height: 15))
+        let btn = UIButton.init(frame: CGRect.init(x:postTime.frame.maxX, y: title.frame.maxY + 5, width: 60, height: 15))
         btn.setImage(UIImage.init(named: "you.png"), for: .normal)
         btn.imageView?.contentMode = .scaleAspectFit
         btn.addTarget(self, action: #selector(sourceBtnDidClick), for: .touchUpInside)
@@ -77,7 +77,7 @@ class PostInfoView: UIView {
         //点赞
         let btnW = SCREEN_WIDTH / 4
         
-        let likeBtn = imgBtn(imgName: "cm2_act_icn_praise_prs", title: "2234", frame: CGRect.init(x: 0, y: self.bounds.size.height - 60 + padding, width: btnW, height: 50))
+        let likeBtn = imgBtn(imgName: "cm2_act_icn_praise_prs", title: "2234", frame: CGRect.init(x: 0, y: tag2.frame.maxY + padding, width: btnW, height: 50))
         self.addSubview(likeBtn)
         
         let likeBtn2 = imgBtn(imgName: "cm2_playlist_icn_fav_prs", title: "2234", frame: CGRect.init(x: btnW, y: likeBtn.frame.origin.y, width: btnW, height: 50))
@@ -89,18 +89,40 @@ class PostInfoView: UIView {
         let likeBtn4 = imgBtn(imgName: "cm2_act_icn_share_prs", title: "2234", frame: CGRect.init(x: btnW*3, y: likeBtn.frame.origin.y, width: btnW, height: 50))
         self.addSubview(likeBtn4)
         
+        
+        let scr = UIScrollView.init(frame: CGRect.init(x: 0, y: self.bounds.size.height - 80 - padding, width: SCREEN_WIDTH, height: 80))
+        scr.contentSize = CGSize.init(width: 220*6+5, height: 80)
+        scr.showsHorizontalScrollIndicator = false
+        self.addSubview(scr)
+        for index in 0...5 {
+            let ll = maybeLikeView(frame: CGRect.init(x: 5+index*(220+5), y: 0, width: 220, height: 80))
+            scr.addSubview(ll)
+        }
+        
+        let customView = UIView.init(frame: CGRect.init(x: 0, y:self.bounds.size.height - 80 - padding-padding-28 , width: SCREEN_WIDTH, height:28))
+        customView.backgroundColor = UIColor.init(white: 247/255.0, alpha: 1)
+        self.addSubview(customView)
+        
+        let headerLabel = UILabel.init(frame: CGRect.zero)
+        headerLabel.backgroundColor = UIColor.clear
+        headerLabel.isOpaque = false
+        headerLabel.textColor = UIColor.black
+        headerLabel.highlightedTextColor = UIColor.white
+        headerLabel.font = UIFont.systemFont(ofSize: 13)
+        headerLabel.frame = CGRect.init(x: 10, y: 0, width: SCREEN_WIDTH, height:28)
+        
+        headerLabel.text = "相关推荐"
+        customView.addSubview(headerLabel)
+        
     }
     
     
     @objc func sourceBtnDidClick(){
-        let webVC = UIViewController.init()
-        let nav = UINavigationController.init(rootViewController: webVC)
-        let web = UIWebView.init(frame: webVC.view.bounds)
-            webVC.view.addSubview(web)
-
-
-        
-        web.loadRequest(URLRequest.init(url: URL.init(string: "http://www.qq.com")!))
+      
+        let web = WebViewController.init()
+        let nav = UINavigationController.init(rootViewController: web)
+        web.loadURL(url: "http://www.qq.com")
+    
         UIApplication.shared.keyWindow?.rootViewController?.present(nav, animated: true, completion: nil)
         
     }

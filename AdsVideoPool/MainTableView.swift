@@ -57,6 +57,7 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         let rc = cell.convert(cell.playerView.frame, to:(UIApplication.shared.delegate?.window)!)
         detail.cellRect = rc
         
+//        let nav = UINavigationController.init(rootViewController: detail)
         self.navigationController?.pushViewController(detail, animated: true)
     }
     

@@ -36,6 +36,9 @@
 		577A2AD0206B428E00C53F98 /* pinglun.json in Resources */ = {isa = PBXBuildFile; fileRef = 577A2ACF206B428E00C53F98 /* pinglun.json */; };
 		577EEE04206201F900EB0E7D /* PostInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577EEE03206201F900EB0E7D /* PostInfoView.swift */; };
 		577EEE06206209E000EB0E7D /* AppTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 577EEE05206209E000EB0E7D /* AppTool.swift */; };
+		57E2B85C2079BE720080A5BF /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E2B85B2079BE720080A5BF /* WebViewController.swift */; };
+		57E2B85F207A136A0080A5BF /* UserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57E2B85D207A136A0080A5BF /* UserInfoView.swift */; };
+		57E2B860207A136A0080A5BF /* UserInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57E2B85E207A136A0080A5BF /* UserInfoView.xib */; };
 		95CADF64180C3E57D8EB8644 /* Pods_AdsVideoPool.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 065F56DA42AC8C17E4DEF028 /* Pods_AdsVideoPool.framework */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +77,9 @@
 		577A2ACF206B428E00C53F98 /* pinglun.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = pinglun.json; sourceTree = "<group>"; };
 		577EEE03206201F900EB0E7D /* PostInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostInfoView.swift; sourceTree = "<group>"; };
 		577EEE05206209E000EB0E7D /* AppTool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTool.swift; sourceTree = "<group>"; };
+		57E2B85B2079BE720080A5BF /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		57E2B85D207A136A0080A5BF /* UserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoView.swift; sourceTree = "<group>"; };
+		57E2B85E207A136A0080A5BF /* UserInfoView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserInfoView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +129,7 @@
 				5765B7B5206DE30B00CB6274 /* MomentCell.swift */,
 				5766501B205B651C0027AE95 /* AppDelegate.swift */,
 				577EEE03206201F900EB0E7D /* PostInfoView.swift */,
+				57E2B85B2079BE720080A5BF /* WebViewController.swift */,
 				5765B7BC206DEF9000CB6274 /* LoginView.swift */,
 				5765B7BD206DEF9000CB6274 /* LoginView.xib */,
 				5765B7CB206E23CD00CB6274 /* MineView.swift */,
@@ -134,6 +141,8 @@
 				576DA19F2064CFDB00219947 /* AVPlayerView.swift */,
 				5751451420690A60004EC1F4 /* MYLayer.swift */,
 				574DAF662071DE13000B6B5A /* AdLinkView.swift */,
+				57E2B85D207A136A0080A5BF /* UserInfoView.swift */,
+				57E2B85E207A136A0080A5BF /* UserInfoView.xib */,
 				5766501F205B651C0027AE95 /* Main.storyboard */,
 				574DAF6E207218DF000B6B5A /* 1111.png */,
 				575144F42068A2D8004EC1F4 /* 2.mp4 */,
@@ -228,6 +237,7 @@
 				575144F52068A2D8004EC1F4 /* 2.mp4 in Resources */,
 				574DAF6F207218DF000B6B5A /* 1111.png in Resources */,
 				57665026205B651C0027AE95 /* LaunchScreen.storyboard in Resources */,
+				57E2B860207A136A0080A5BF /* UserInfoView.xib in Resources */,
 				5765B7C8206E171E00CB6274 /* logo-w.png in Resources */,
 				572D33CD2074AC6600BD1AA2 /* you.png in Resources */,
 				57665023205B651C0027AE95 /* Assets.xcassets in Resources */,
@@ -309,6 +319,8 @@
 				5765B7BE206DEF9000CB6274 /* LoginView.swift in Sources */,
 				577EEE04206201F900EB0E7D /* PostInfoView.swift in Sources */,
 				577EEE06206209E000EB0E7D /* AppTool.swift in Sources */,
+				57E2B85F207A136A0080A5BF /* UserInfoView.swift in Sources */,
+				57E2B85C2079BE720080A5BF /* WebViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

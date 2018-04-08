@@ -60,7 +60,12 @@ class MomentTableView: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MomentCell", for: indexPath) as! MomentCell
         cell.selectionStyle = .none
         cell.frame = CGRect.init(x: -5, y: -20, width: cell.frame.size.width-10, height: cell.frame.size.height)
-        
+        cell.userInfoClick = { (data) -> Void in
+                print(data)
+            
+            let user = UserInfoView.init()
+            self.navigationController?.pushViewController(user, animated: true)
+        }
         cell.data = arr[indexPath.row] as! NSDictionary
         return cell
     }

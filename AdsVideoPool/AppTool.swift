@@ -15,10 +15,10 @@ var JSON =
         [
             "tag":"游戏推荐",
             "title":"勇闯迷宫，拯救公主",
-            "videoName":"12.mp4",
+            "videoName":"2.mp4",
             "detail":"进入《Crypt of the NecroDancer》的动感冒险",
-            "width":"720",
-            "height":"1280",
+            "width":"1280",
+            "height":"720",
         ],
         [   "tag":"今日推荐",
                 "title":"知你喜好,为你调酒",
@@ -56,7 +56,40 @@ func imageFromView(view:UIView) -> UIImage {
     return img!
 }
 
+func randomColor() -> UIColor {
+        let red = CGFloat(arc4random()%256)/255.0
+        let green = CGFloat(arc4random()%256)/255.0
+        let blue = CGFloat(arc4random()%256)/255.0
+        return UIColor(red: red, green: green, blue: blue, alpha: 1.0)
+}
 
+func maybeLikeView(frame:CGRect) -> UIView {
+    
+    let padding:CGFloat = 10
+    
+    let repostView = UIView.init(frame:frame)
+    repostView.backgroundColor = UIColor.init(white: 240/255.0, alpha: 1)
+    repostView.layer.cornerRadius = 5
+    repostView.layer.masksToBounds = true
+    
+    let subImg = UIImageView.init(image: UIImage.init(named: "1111.png"))
+    subImg.frame = CGRect.init(x: 5, y: (frame.size.height-54)/2, width: 100, height: 54)
+    subImg.layer.cornerRadius = 5
+    subImg.layer.masksToBounds = true
+    repostView.addSubview(subImg)
+    
+    let lr = UILabel.init(frame: CGRect.init(x: subImg.frame.maxX + padding, y:11.5, width: repostView.frame.width-subImg.frame.maxX - 30, height: 30))
+    lr.font = UIFont.systemFont(ofSize: 10.0, weight: .bold)
+    lr.text = "知你喜好,为你调酒"
+    repostView.addSubview(lr)
+    
+    let tag = UILabel.init(frame: CGRect.init(x: subImg.frame.maxX + padding, y:lr.frame.maxY , width: repostView.frame.width-subImg.frame.maxX - 30, height: 30))
+    tag.font = UIFont.systemFont(ofSize: 9.0, weight:.thin)
+    tag.text = "#广告#"
+    repostView.addSubview(tag)
+    
+    return repostView
+}
 func actionView(frame:CGRect) -> UIView{
     
     let div = UIView.init(frame: frame)

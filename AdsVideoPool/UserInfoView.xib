@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="13771" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UserInfoView" customModule="AdsVideoPool" customModuleProvider="target"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="5PY-gU-fXn">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tDl-gZ-XvR">
+                    <rect key="frame" x="0.0" y="0.0" width="375" height="250"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="点击登录后可评论" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nqT-6o-oVi">
+                            <rect key="frame" x="130" y="150" width="115" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="21" id="9Ae-K3-ixd"/>
+                                <constraint firstAttribute="width" constant="115" id="zKC-be-pre"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                            <color key="textColor" red="0.57509836309999995" green="0.57604166670000001" blue="0.56288846940000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RTr-Il-ebk">
+                            <rect key="frame" x="232.5" y="205" width="70" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="30" id="PYo-r3-XWR"/>
+                                <constraint firstAttribute="width" constant="70" id="lzE-jE-ScC"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="2"/>
+                            <state key="normal" title="缓存" image="cm2_rcd_icn_fav">
+                                <color key="titleColor" red="0.40000283720000002" green="0.39999476080000002" blue="0.40000027420000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="titleShadowColor" red="0.40000283720000002" green="0.39999476080000002" blue="0.40000027420000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Pk-6R-QBi">
+                            <rect key="frame" x="72.5" y="205" width="70" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="70" id="ChM-Mz-yqw"/>
+                                <constraint firstAttribute="height" constant="30" id="Dee-mR-u8o"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="5" maxY="2"/>
+                            <state key="normal" title="喜欢" image="cm2_act_icn_praise_prs">
+                                <color key="titleColor" red="0.40000283720000002" green="0.39999476080000002" blue="0.40000027420000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="titleShadowColor" red="0.40000283720000002" green="0.39999476080000002" blue="0.40000027420000001" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            </state>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JxV-PT-XvU">
+                            <rect key="frame" x="142" y="52" width="90" height="90"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="90" id="upV-D6-6lJ"/>
+                                <constraint firstAttribute="width" constant="90" id="yI6-QV-fAp"/>
+                            </constraints>
+                            <state key="normal" backgroundImage="用户头像"/>
+                            <userDefinedRuntimeAttributes>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="adjustsImageWhenHighlighted" value="NO"/>
+                                <userDefinedRuntimeAttribute type="boolean" keyPath="showsTouchWhenHighlighted" value="NO"/>
+                            </userDefinedRuntimeAttributes>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" red="0.97030530020000005" green="0.96904926589999996" blue="0.99098905690000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                    <constraints>
+                        <constraint firstAttribute="bottom" secondItem="6Pk-6R-QBi" secondAttribute="bottom" constant="15" id="235-Cn-VUR"/>
+                        <constraint firstAttribute="height" constant="250" id="5u0-fT-uEI"/>
+                        <constraint firstItem="6Pk-6R-QBi" firstAttribute="centerX" secondItem="tDl-gZ-XvR" secondAttribute="centerX" constant="-80" id="85O-0q-wk1"/>
+                        <constraint firstItem="JxV-PT-XvU" firstAttribute="top" secondItem="tDl-gZ-XvR" secondAttribute="top" constant="52" id="AZQ-Cy-V71"/>
+                        <constraint firstAttribute="bottom" secondItem="RTr-Il-ebk" secondAttribute="bottom" constant="15" id="Ypq-ty-FdR"/>
+                        <constraint firstItem="RTr-Il-ebk" firstAttribute="centerX" secondItem="tDl-gZ-XvR" secondAttribute="centerX" constant="80" id="eEk-So-l39"/>
+                        <constraint firstItem="nqT-6o-oVi" firstAttribute="centerX" secondItem="tDl-gZ-XvR" secondAttribute="centerX" id="wpe-Uw-c3C"/>
+                        <constraint firstItem="JxV-PT-XvU" firstAttribute="centerX" secondItem="tDl-gZ-XvR" secondAttribute="centerX" id="wth-K0-WNT"/>
+                        <constraint firstItem="nqT-6o-oVi" firstAttribute="top" secondItem="JxV-PT-XvU" secondAttribute="bottom" constant="8" id="xPu-K0-pdX"/>
+                    </constraints>
+                </view>
+                <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="zFU-Dh-1o9">
+                    <rect key="frame" x="0.0" y="250" width="375" height="417"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </tableView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="fjs-nR-Kon" firstAttribute="trailing" secondItem="zFU-Dh-1o9" secondAttribute="trailing" id="1cu-L4-6jo"/>
+                <constraint firstItem="fjs-nR-Kon" firstAttribute="bottom" secondItem="zFU-Dh-1o9" secondAttribute="bottom" id="Gc8-uO-Djh"/>
+                <constraint firstItem="tDl-gZ-XvR" firstAttribute="top" secondItem="5PY-gU-fXn" secondAttribute="top" id="Mnn-j2-M5E"/>
+                <constraint firstItem="zFU-Dh-1o9" firstAttribute="top" secondItem="tDl-gZ-XvR" secondAttribute="bottom" id="QVc-mc-Uw8"/>
+                <constraint firstItem="tDl-gZ-XvR" firstAttribute="trailing" secondItem="fjs-nR-Kon" secondAttribute="trailing" id="x8g-NV-3dD"/>
+                <constraint firstItem="zFU-Dh-1o9" firstAttribute="leading" secondItem="fjs-nR-Kon" secondAttribute="leading" id="yPf-cm-wHz"/>
+                <constraint firstItem="tDl-gZ-XvR" firstAttribute="leading" secondItem="fjs-nR-Kon" secondAttribute="leading" id="zCF-QC-XZl"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="fjs-nR-Kon"/>
+            <point key="canvasLocation" x="33.5" y="54.5"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="cm2_act_icn_praise_prs" width="15" height="15"/>
+        <image name="cm2_rcd_icn_fav" width="22" height="22"/>
+        <image name="用户头像" width="85" height="85"/>
+    </resources>
+</document>

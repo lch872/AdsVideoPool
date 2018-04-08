@@ -65,7 +65,7 @@ class MainViewCell: UITableViewCell {
     var title = UILabel()
     var detail = UILabel()
     var bgView = UIView()
-    
+    var act = UIView()
     func setupData(){
         tagL.text = data["tag"]
         title.text = data["title"]
@@ -86,6 +86,7 @@ class MainViewCell: UITableViewCell {
             ddd = 400;
         }
         playerView.frame = CGRect.init(x: (-SCREEN_WIDTH+bgView.bounds.width)/2.0, y: 0, width: SCREEN_WIDTH, height: ddd)
+        act.frame = CGRect.init(x: 0, y: playerView.frame.maxY + 10, width: 375, height: 20)
     
     }
     func setupView() {
@@ -116,7 +117,7 @@ class MainViewCell: UITableViewCell {
 //            make.top.equalTo(bgView.snp.top).offset(+210+20)
 //        }
 
-        let act = actionView(frame: CGRect.init(x: 0, y: 212, width: 375, height: 20))
+        act = actionView(frame: CGRect.init(x: 0, y: playerView.frame.maxY + padding, width: 375, height: 20))
 //        act.backgroundColor = UIColor.red
         bgView.addSubview(act)
 //        act.snp.makeConstraints { (make) in
@@ -131,7 +132,7 @@ class MainViewCell: UITableViewCell {
         title.isOpaque = false
         bgView.addSubview(title)
         title.snp.makeConstraints { (make) in
-            make.left.equalTo(act.snp.left)
+            make.left.equalTo(bgView.snp.left).offset(+10)
             make.top.equalTo(act.snp.bottom).offset(+10)
         }
         
@@ -144,7 +145,7 @@ class MainViewCell: UITableViewCell {
         detail.font = UIFont.boldSystemFont(ofSize: 16.0)
         bgView.addSubview(detail)
         detail.snp.makeConstraints { (make) in
-            make.left.equalTo(act.snp.left)
+            make.left.equalTo(bgView.snp.left).offset(+10)
             make.top.equalTo(title.snp.bottom).offset(+5)
             make.width.equalTo(bgView.snp.width).offset(-padding*2)
         }
