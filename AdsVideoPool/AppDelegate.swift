@@ -45,8 +45,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         
         tabbar.addChildViewController(nav)
-        tabbar.addChildViewController(nav2)
-        tabbar.addChildViewController(mine)
+//        tabbar.addChildViewController(nav2)
+//        tabbar.addChildViewController(mine)
         
         self.window!.rootViewController = tabbar
         

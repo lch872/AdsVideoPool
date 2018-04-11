@@ -125,6 +125,7 @@
 			children = (
 				574ED4C22064EE6A00C20B42 /* MainTableView.swift */,
 				574ED4BD2064EDBE00C20B42 /* MainViewCell.swift */,
+				576FE96B2060B773006F3910 /* VideoDetailView.swift */,
 				5765B7B3206DE2D100CB6274 /* MomentTableView.swift */,
 				5765B7B5206DE30B00CB6274 /* MomentCell.swift */,
 				5766501B205B651C0027AE95 /* AppDelegate.swift */,
@@ -135,7 +136,6 @@
 				5765B7CB206E23CD00CB6274 /* MineView.swift */,
 				5765B7CC206E23CD00CB6274 /* MineView.xib */,
 				577EEE05206209E000EB0E7D /* AppTool.swift */,
-				576FE96B2060B773006F3910 /* VideoDetailView.swift */,
 				576FE96F2060F8F2006F3910 /* CommentInputView.swift */,
 				576FE97120610113006F3910 /* CommentCell.swift */,
 				576DA19F2064CFDB00219947 /* AVPlayerView.swift */,

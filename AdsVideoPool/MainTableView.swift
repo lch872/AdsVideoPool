@@ -1,4 +1,4 @@
-//
+    //
 //  MainTableView.swift
 //  AdsVideoPool
 //
@@ -18,14 +18,29 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         self.tableView.register(MainViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
         self.tableView.delaysContentTouches = false
         
-//        self.tableView.tableHeaderView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 300))
+        let header = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 100))
+        
+        let date = UILabel.init(frame: CGRect.init(x: 20, y: 20, width: 200, height: 15))
+        date.text = "4月9日 星期一"
+        date.font = UIFont.systemFont(ofSize: 13, weight: .medium)
+        date.textColor = UIColor.init(white: 150/255.0, alpha: 1)
+        header.addSubview(date)
+        
+        let title = UILabel.init(frame: CGRect.init(x: 20, y: date.frame.maxY + 5, width: 200, height: 30))
+        title.text = "今日推荐"
+        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        header.addSubview(title)
+        
+        
+        
+        self.tableView.tableHeaderView = header
     }
 
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.delegate = self
         self.navigationController?.setNavigationBarHidden(true, animated: false)
         
-//        scrollViewDidScroll(tableView.cont)
+        self.tabBarController?.tabBar.isHidden = false
     }
 
     // MARK: - Table view data source
@@ -44,21 +59,42 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! MainViewCell
         cell.data = JSON[indexPath.row%2]
         cell.selectionStyle = .none
+        cell.indexo = indexPath
+        cell.clickClosure = { (index) -> Void in
+            print(index)
+            self.click(indexPath: index!)
+        }
         return cell
     }
-    //点击
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    
+    
+    
+    func click(indexPath:IndexPath){
         let detail = VideoDetailView()
         detail.bgImg = imageFromView(view: self.view)
-        detail.data = JSON[indexPath.row%2]
+        let data = JSON[indexPath.row%2]
+        detail.data = data
         detail.currentIndex = indexPath
         
         let cell = self.tableView.cellForRow(at: indexPath) as! MainViewCell
         let rc = cell.convert(cell.playerView.frame, to:(UIApplication.shared.delegate?.window)!)
         detail.cellRect = rc
         
-//        let nav = UINavigationController.init(rootViewController: detail)
+        let filePath = Bundle.main.path(forResource: data["videoName"] as! String, ofType:nil)
+        let videoURL = URL(fileURLWithPath: filePath!)
+        
+        let cxx = JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.playingKey
+        
+        if videoURL.absoluteString != cxx {
+            JPVideoPlayerPlayVideoTool.shared().stopPlay()
+        }
+        
+        jumpToDetail = true
         self.navigationController?.pushViewController(detail, animated: true)
+    }
+    //点击
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        click(indexPath: indexPath)
     }
     
     //动画
@@ -115,9 +151,12 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
     }
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
-        let cell = self.tableView.cellForRow(at: self.tableView.indexPathForSelectedRow!) as! MainViewCell
+//        let cell = self.tableView.cellForRow(at: self.tableView.indexPathForSelectedRow!) as! MainViewCell
         let toVC = transitionContext.viewController(forKey: .to)as! VideoDetailView
         let toView = toVC.playerView
+        
+        
+        let cell = self.tableView.cellForRow(at: toVC.currentIndex) as! MainViewCell
         let fromView = cell.playerView
         let containerView = transitionContext.containerView
         
@@ -192,21 +231,24 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             // If the found cell is the cell playing video, this situation cannot play video again.
             // 注意, 如果正在播放的 cell 和 finnalCell 是同一个 cell, 不应该在播放.
             if playingCell.hash != bestCell.hash {
-                playingCell.playerView.jp_stopPlay()
                 
-//                let url = URL(string: bestCell.videoPath)
-                
+                let current = JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.playingKey
                 let filePath = Bundle.main.path(forResource: bestCell.data["videoName"], ofType:nil)
                 let videoURL = URL(fileURLWithPath: filePath!)
-                // display status view.
                 
-                bestCell.playerView.jp_playVideo(with: videoURL, options: [.mutedPlay,.layerVideoGravityResizeAspect], progress: nil, completed: nil)
-//                bestCell.playerView.jp_playVideoMutedHiddenStatusView(with: videoURL)
+//                let ccc = URL.init(string: "https://cdn.oneway.mobi/cre/109/d1428ce9d90fd857b8fcbc7c0e92b2f7.mp4")
+
+                if videoURL.absoluteString != current {
+                    playingCell.playerView.jp_stopPlay()
+                    
+                bestCell.playerView.jp_playVideo(with: videoURL, options: [.layerVideoGravityResizeAspect,.mutedPlay,.showProgressView], progress: nil, completed: nil)
+//                    bestCell.playerView.jp_playVideoMutedDisplayStatusView(with: videoURL)
+                    
+                    
+                    
+                    playingCell = bestCell
+                }
                 
-                // hide status view.
-                // bestCell.videoImv.jp_playVideoMuted(with: url)
-                
-                playingCell = bestCell
             }
         }
     
@@ -237,6 +279,7 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
     let JPVideoPlayerDemoReuseID = "JPVideoPlayerDemoReuseID"
     let  JPVideoPlayerDemoRowHei : CGFloat = CGFloat(SCREEN_WIDTH)*9.0/16.0
     
+    var jumpToDetail = false
     
     let generateTableViewRange = { () -> UIView in
         let tableViewRange = UIView(frame: CGRect(x: 0, y: 64, width: SCREEN_WIDTH, height: SCREEN_HEIGHT-64-49))
@@ -319,10 +362,6 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         }
 
         func playingCellIsVisiable() -> Bool {
-//            guard let cell = playingCell else {
-//                return true
-//            }
-
             let cell = playingCell
             if cell == nil {
                 return false
@@ -360,12 +399,16 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             return true
     }
     
-//    override func viewWillDisappear(_ animated: Bool) {
-//        playingCell.playerView.jp_stopPlay()
-//    }
-//
-//    override func viewDidAppear(_ animated: Bool) {
-//        playingCell.playerView.jp_resume()
-//    }
-//
+    override func viewWillDisappear(_ animated: Bool) {
+        if !jumpToDetail {
+            playingCell.playerView.jp_pause()
+        }
+        
+        
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        jumpToDetail = false
+        playingCell.playerView.jp_resume()
+    }
 }

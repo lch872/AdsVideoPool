@@ -34,17 +34,19 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     var cellRect = CGRect()
     var jsonDic = NSDictionary()
     
+    var isFirstAppear = false
+    
     override func viewDidLoad() {
+        
         super.viewDidLoad()
-
+        
+        isFirstAppear = true
+        
         let jsonPath = Bundle.main.path(forResource: "pinglun", ofType: "json")
         let data = NSData.init(contentsOfFile: jsonPath!)
         jsonDic = try! JSONSerialization.jsonObject(with: data! as Data, options: JSONSerialization.ReadingOptions.mutableContainers) as! NSDictionary
         
-
-//      let yy = UIImageView.init(image: imageFromView(view: self.view))
-//        yy.frame = self.view.bounds
-//        self.view.insertSubview(yy, belowSubview: mainView)
+        
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
@@ -65,6 +67,9 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.delegate = self;
          self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.tabBarController?.tabBar.isHidden = true
+        
+        
     }
 
     func addView(view:UIImageView){
@@ -78,6 +83,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     
     var close = UIButton()
+    
+    var isZoomable = false
     
     func setupView() {
         
@@ -107,8 +114,26 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
 //        // 播放器
 //        let div:Float = Float(data["height"] as! String)!/Float(data["width"]as! String)!
         
-        let div = 0.564
-        playerView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: CGFloat(div)*SCREEN_WIDTH))
+
+        let width = data["width"] as! String
+        let height = data["height"] as! String
+        
+        let ddd = Float(width)!/Float(height)!
+        
+        let ddd3 = Float(height)!/Float(width)!
+        
+        
+        var ddd2 = SCREEN_WIDTH*CGFloat(ddd)
+        if ddd < 1 {
+            ddd2 = ddd2 + 200
+            isZoomable = true
+        }else{
+            ddd2 = SCREEN_WIDTH*CGFloat(ddd3)
+        }
+        
+        
+        
+        playerView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ddd2))
         mainView.addSubview(playerView)
 
 
@@ -136,6 +161,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         //MARK: 评论
         textView = CommentInputView.init(frame: CGRect.init(x: 0, y: table.frame.maxY, width: self.view.bounds.width, height: 50))
         textView.click = { (lll)->Void in
+
             if lll {
                 self.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
             }else{
@@ -152,15 +178,13 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
 //        
     }
     
+    
     @objc func popViewController() {
         
         mainView.transform = CGAffineTransform.init(scaleX: 0.9, y: 0.9)
         self.navigationController?.popViewController(animated: true)
     }
     
-//    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-//        return "精彩评论"
-//    }
     
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -195,29 +219,6 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-//        if indexPath.section == 0 {
-////            let cell = tableView.dequeueReusableCell(withIdentifier: "aCell", for: indexPath) as! CommentCell
-//
-//            let cell = UITableViewCell.init(style: .default, reuseIdentifier: "oolol")
-//            cell.contentView.subviews.forEach({ (view) in
-//                view.removeFromSuperview()
-//            })
-//            
-//            let scr = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 80))
-////            scr.backgroundColor = UIColor.red
-//            scr.contentSize = CGSize.init(width: 197*6+5, height: 80)
-//            scr.showsHorizontalScrollIndicator = false
-//            cell.contentView.addSubview(scr)
-//            for index in 0...5 {
-//                let ll = UIView.init(frame: CGRect.init(x: 5+index*(192+5), y: 0, width: 192, height: 80))
-//                ll.backgroundColor = UIColor.init(white: 240/255.0, alpha: 1)
-//                ll.layer.cornerRadius = 10.0
-//                ll.layer.masksToBounds = true
-//                scr.addSubview(ll)
-//            }
-//            return cell
-//        }
-//        
         let arr = jsonDic["itemList"] as! NSArray
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "aCell", for: indexPath) as! MomentCell
@@ -225,8 +226,17 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         cell.frame = CGRect.init(x: -5, y: -20, width: cell.frame.size.width-10, height: cell.frame.size.height)
         
         cell.data = arr[indexPath.row] as! NSDictionary
+        
+        cell.userInfoClick = { (data) -> Void in
+            print(data)
+            let user = UserInfoView.init()
+            user.hidesBottomBarWhenPushed = true
+            self.navigationController?.pushViewController(user, animated: true)
+        }
+        
         return cell
     }
+    
     
     //MARK: - 监听键盘
     @objc func keyBoardWillShow(_ notification: Notification){
@@ -259,6 +269,9 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
+        
+        
+
     }
     deinit {
         //移除通知
@@ -325,19 +338,54 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     }
     
     
+    func decFrameY(y:CGFloat) {
+        
+        let minHeight:CGFloat = SCREEN_WIDTH*0.5625
+        let maxHeight:CGFloat = SCREEN_HEIGHT*0.65
+        let frame = self.playerView.frame
+        
+        let height = frame.size.height - y
+        
+        if height <= minHeight || height >= maxHeight {
+            return
+        }
+        
+
+        let rect = CGRect.init(x: frame.origin.x, y: frame.origin.y, width: frame.size.width, height: height)
+        
+        self.playerView.frame = rect
+        
+        CATransaction.begin()
+        CATransaction.setDisableActions(true)
+        JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.currentPlayerLayer?.frame = rect
+        CATransaction.commit()
+        
+        self.table.frame = CGRect.init(x: 0, y: self.playerView.frame.maxY, width: SCREEN_WIDTH, height: SCREEN_HEIGHT-self.playerView.frame.maxY)
+    }
+    
+    //MARK: - ScrollView Delegate
+    var firstY:CGFloat = 0
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        firstY = scrollView.contentOffset.y
+    }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        print(scrollView.contentOffset.y)
         if scrollView.contentOffset.y < -40 {
             self.dismiss(animated: true, completion: nil)
         }
-        //        if scrollView.contentOffset.y < 0 {
-//            scrollView.contentOffset.y = 0
-//        }
+        
+        if scrollView.contentOffset.y > 400 && isZoomable {
+            decFrameY(y: scrollView.contentOffset.y-firstY)
+            firstY = scrollView.contentOffset.y
+        }
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        return self
+        if toVC.isKind(of: MainTableView.self) {
+            isJumpToMain = true
+            return self
+        }
+        return nil
     }
     
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
@@ -357,11 +405,9 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         let cell = toVC.tableView.cellForRow(at: currentIndex) as? MainViewCell
        
-        print("currentIndex:\(currentIndex)")
-        if cell == nil {
-            print("nil ----- \(toVC.tableView)")
-        }
         let toView = cell?.playerView
+        print("toView----\(toView?.frame)")
+        
         
         fromView.frame = containerView.convert(fromView.frame, from: fromView.superview)
         toView?.isHidden = true
@@ -391,13 +437,18 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             fromVC.view.alpha = 0.0
             
             let fra = containerView.convert(fromView.frame, from: fromView.superview!.superview!)
-            fromView.frame = CGRect.init(x: fra.origin.x, y: self.cellRect.origin.y, width: fra.size.width, height: fra.size.height)
+            
+            let ddd22 = cell?.clickFrame
+            fromView.frame = CGRect.init(x: fra.origin.x, y: self.cellRect.origin.y, width: (ddd22?.size.width)!, height: (ddd22?.size.height)!)
             
            let tabBar = self.tabBarController!.tabBar as UITabBar
                tabBar.frame = CGRect.init(x: 0, y: SCREEN_HEIGHT-49, width: SCREEN_WIDTH, height: 49)
             
-            
+            CATransaction.begin()
+            CATransaction.setDisableActions(true)
             JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.currentPlayerLayer?.frame = fromView.bounds
+            CATransaction.commit()
+            
         }) { (finished) -> Void in
             
             fromView.isHidden = false
@@ -405,6 +456,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             fromView.removeFromSuperview()
             cell!.addView(view: fromView)
             fromView.layer.mask = nil
+            print("toView?.frame:\(toView?.frame)")
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
@@ -412,19 +464,36 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
 
     
+    override func viewWillDisappear(_ animated: Bool) {
+        if !isJumpToMain {
+            self.playerView.jp_pause()
+        }
+        
+        
+    }
+    
+    var isJumpToMain = false
     override func viewDidAppear(_ animated: Bool) {
         
-        let filePath = Bundle.main.path(forResource: self.data["videoName"] as? String, ofType:nil)
-        let videoURL = URL(fileURLWithPath: filePath!)
+        if isFirstAppear {
+            let filePath = Bundle.main.path(forResource: self.data["videoName"] as? String, ofType:nil)
+            let videoURL = URL(fileURLWithPath: filePath!)
+            
+            let current = JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.playingKey
+            if videoURL.absoluteString != current {
+                self.playerView.jp_playVideo(with: videoURL, options: [.layerVideoGravityResizeAspect,.mutedPlay], progress: nil, completed: nil)
+            }
+            
+           self.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+           isFirstAppear = false
+        }
         
-        let ddd = self.playerView.jp_videoLayer
+        isJumpToMain = false
+        self.playerView.jp_resume()
         
-        print(ddd)
-        
-        self.playerView.jp_playVideoMutedHiddenStatusView(with: videoURL)
-        
-        self.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
     }
+    
+
 
 }
 

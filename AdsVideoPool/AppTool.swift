@@ -15,18 +15,30 @@ var JSON =
         [
             "tag":"游戏推荐",
             "title":"勇闯迷宫，拯救公主",
-            "videoName":"2.mp4",
+            "videoName":"12.mp4",
             "detail":"进入《Crypt of the NecroDancer》的动感冒险",
-            "width":"1280",
-            "height":"720",
+            "width":"720",
+            "height":"1280",
+            "type":"1"
         ],
-        [   "tag":"今日推荐",
+        [
+            "tag":"今日推荐",
                 "title":"知你喜好,为你调酒",
                 "videoName":"3.mp4",
                 "width":"1280",
                 "height":"720",
                 "detail":"与石原里美一起享受美味的好酒"
+        ],
+        [
+            "tag":"游戏推荐",
+            "title":"勇闯迷宫，拯救公主",
+            "videoName":"12.mp4",
+            "detail":"进入《Crypt of the NecroDancer》的动感冒险",
+            "width":"720",
+            "height":"1280",
+            "type":"2"
         ]
+        
    ]
 
 
@@ -93,29 +105,46 @@ func maybeLikeView(frame:CGRect) -> UIView {
 func actionView(frame:CGRect) -> UIView{
     
     let div = UIView.init(frame: frame)
-    let btnW = frame.width / 4
+    let btnW:CGFloat = frame.width/5
     
-    let likeBtn = imgBtn(imgName: "cm2_act_icn_praise_prs", title: "2234", frame: CGRect.init(x: 0, y: 0, width: btnW, height: frame.height))
-//    likeBtn.backgroundColor = UIColor.blue
+    
+    let likeBtn = imgBtn(imgName: "cm2_act_icn_praise_prs", title: "2234", frame: CGRect.init(x: frame.width-btnW*5, y: 0, width: btnW, height: frame.height))
+    likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praised"), for: .selected)
+    likeBtn.setTitleColor(UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1), for: .selected)
     div.addSubview(likeBtn)
     
-    let likeBtn2 = imgBtn(imgName: "cm2_playlist_icn_fav_prs", title: "2234", frame: CGRect.init(x: btnW, y: 0, width: btnW, height: frame.height))
+    let likeBtn2 = imgBtn(imgName: "踩", title: "2234", frame: CGRect.init(x: frame.width-btnW*4, y: 0, width: btnW, height: frame.height))
     div.addSubview(likeBtn2)
     
-    let likeBtn3 = imgBtn(imgName: "cm2_act_icn_cmt_prs", title: "2234", frame: CGRect.init(x: btnW*2, y: 0, width: btnW, height: frame.height))
-    div.addSubview(likeBtn3)
-    
-    let likeBtn4 = imgBtn(imgName: "cm2_act_icn_share_prs", title: "2234", frame: CGRect.init(x: btnW*3, y: 0, width: btnW, height: frame.height))
+    let likeBtn4 = imgBtn(imgName: "cm2_act_icn_cmt_prs", title: "2234", frame: CGRect.init(x: frame.width-btnW*3, y: 0, width: btnW, height: frame.height))
+    likeBtn4.setImage(UIImage.init(named: "cm2_act_icn_praised"), for: .selected)
+    likeBtn4.setTitleColor(UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1), for: .selected)
     div.addSubview(likeBtn4)
     
+    let likeBtn3 = imgBtn(imgName: "cm2_act_icn_share_prs", title: "1232", frame: CGRect.init(x: frame.width-btnW*2, y: 0, width: btnW, height: frame.height))
+    div.addSubview(likeBtn3)
+    
+    let likeBtn5 = imgBtn(imgName: "更多", title: "", frame: CGRect.init(x: frame.width-btnW, y: 0, width: btnW, height: frame.height))
+    div.addSubview(likeBtn5)
+    
+    
+    
     return div
+}
+
+
+func  dividerLine(frame:CGRect) -> UIView {
+    let view = UIView.init(frame: frame)
+    view.backgroundColor = UIColor.init(white: 203/255.0, alpha: 1)
+    
+    return view
 }
 
 func imgBtn(imgName:String, title:String, frame:CGRect) -> UIButton {
     let btn = UIButton.init(frame: frame)
     btn.setImage(UIImage.init(named: imgName), for: .normal)
     btn.setTitle(title, for: .normal)
-    btn.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+    btn.titleLabel?.font = UIFont.systemFont(ofSize: 12, weight: .medium)
     btn.setTitleColor(UIColor.init(white: 168/255.0, alpha: 1), for: .normal)
 //    btn.titleEdgeInsets = UIEdgeInsets.init(top: btn.imageView!.frame.size.height, left: -btn.imageView!.frame.size.width, bottom: 0, right: 0)
 //    btn.imageEdgeInsets = UIEdgeInsets.init(top: -btn.titleLabel!.bounds.size.height-5, left: 0, bottom: 0, right: -btn.titleLabel!.bounds.size.width)

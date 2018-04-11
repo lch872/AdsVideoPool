@@ -8,13 +8,12 @@
 
 import UIKit
 import AVKit
+import JPVideoPlayer
 
 class MomentCell: UITableViewCell {
 
     var isRepost = false
     
-    var userInfoClick:(Dictionary<String,String>) -> Void = { (data:Dictionary<String,String>) -> Void in
-    }
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -24,6 +23,10 @@ class MomentCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         
         data = NSDictionary()
+        userInfoClick = {(data:Dictionary<String,String>) -> Void in
+            
+
+        }
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         setupView()
@@ -33,13 +36,15 @@ class MomentCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    var userInfoClick:(Dictionary<String,String>) -> Void?
+    
     var data:NSDictionary{
         didSet{
             setupData()
         }
     }
     
-    var nameL = UILabel()
+    var nameL = UIButton()
     var timeL = UILabel()
     var likeNumber = UILabel()
     var textLL = UILabel()
@@ -56,20 +61,18 @@ class MomentCell: UITableViewCell {
         let url = URL(string: avatar)
         icon.kf.setImage(with: url, for: .normal)
         
-        nameL.text = namn!["nickname"] as! String
-        
-//        let ddd = dict.value(forKey: "createTime") as! NSNumber
-        postWay.text = "评论了:"
+        nameL.setTitle(namn!["nickname"] as! String, for: .normal)
+
+        //
+//        postWay.text = "评论了:"
         
         textLL.text = dict.value(forKey: "message") as! String!
         textLL.sizeToFit()
         let size = textLL.sizeThatFits(CGSize.init(width: SCREEN_WIDTH-icon.frame.maxX-15-10, height: CGFloat(MAXFLOAT)))
         textLL.frame = CGRect.init(x: textLL.frame.origin.x, y: textLL.frame.origin.y, width: SCREEN_WIDTH-icon.frame.maxX-15-10, height: size.height)
         
-        timeL.text = "2018/03/12"
-//
-//        reply.frame = CGRect.init(x: icon.frame.maxX + 10, y: self.contentView.frame.size.height - 30 - 10, width: 28, height: 30)
-        
+//        let ddd = dict.value(forKey: "createTime") as! NSNumber
+        timeL.text = "2018/04/12 13:23"
         
         
 
@@ -81,10 +84,6 @@ class MomentCell: UITableViewCell {
         
     }
    @objc func userInfoDidClick() {
-
-//        let user = UserInfoView.init()
-//    UIApplication.shared.keyWindow?.rootViewController?.childViewControllers.first!.navigationController?.pushViewController(user, animated: true)
-
         userInfoClick(["111":"3333"])
     }
     
@@ -98,9 +97,12 @@ class MomentCell: UITableViewCell {
         icon.addTarget(self, action: #selector(userInfoDidClick), for: .touchUpInside)
         self.contentView.addSubview(icon)
         
-        nameL = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: icon.frame.origin.y, width: 200, height: 13))
-        nameL.font = UIFont.systemFont(ofSize: 13)
-        nameL.textColor = UIColor.init(white: 70/255.0, alpha: 1)
+        nameL = UIButton.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: icon.frame.origin.y, width: 200, height: 13))
+        nameL.titleLabel?.font = UIFont.systemFont(ofSize: 13)
+        nameL.setTitleColor(UIColor.init(white: 70/255.0, alpha: 1), for: .normal)
+        nameL.center = CGPoint.init(x: nameL.center.x, y: icon.center.y)
+        nameL.contentHorizontalAlignment = .left;
+        nameL.addTarget(self, action: #selector(userInfoDidClick), for: .touchUpInside)
         self.contentView.addSubview(nameL)
         
         postWay = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: icon.frame.maxY - 11, width: 100, height: 11))
@@ -174,7 +176,7 @@ class MomentCell: UITableViewCell {
         likeBtn = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH - 60, y: reply.frame.origin.y, width: 50, height: 20))
         likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praise_prs"), for: .normal)
         likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praised"), for: .selected)
-        //        likeBtn.addTarget(self, action: #selector(likeBtnClick), for: .touchUpInside)
+        likeBtn.addTarget(self, action: #selector(likeBtnClick), for: .touchUpInside)
         likeBtn.setTitleColor(UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1), for: .selected)
         likeBtn.setTitleColor(UIColor.init(white: 168/255.0, alpha: 1), for: .normal)
         likeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
@@ -186,6 +188,14 @@ class MomentCell: UITableViewCell {
         }
         
     }
+    
+    
+    @objc func likeBtnClick(btn:UIButton) {
+            btn.isSelected = !btn.isSelected
+        
+    }
+    
+    
     
     @objc func tapAction() {
     

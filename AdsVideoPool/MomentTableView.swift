@@ -45,12 +45,10 @@ class MomentTableView: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
         return 1
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
         return jsonDic.count
     }
 
@@ -60,14 +58,16 @@ class MomentTableView: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MomentCell", for: indexPath) as! MomentCell
         cell.selectionStyle = .none
         cell.frame = CGRect.init(x: -5, y: -20, width: cell.frame.size.width-10, height: cell.frame.size.height)
+        
         cell.userInfoClick = { (data) -> Void in
-                print(data)
-            
+                print(data)    
             let user = UserInfoView.init()
             self.navigationController?.pushViewController(user, animated: true)
         }
         cell.data = arr[indexPath.row] as! NSDictionary
         return cell
     }
+    
+    
     
 }
