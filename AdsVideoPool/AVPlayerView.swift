@@ -49,17 +49,17 @@ class AVPlayerView: UIView {
 //        self.backgroundColor = UIColor.red
     }
 
-    
-    override func layoutSubviews() {
-        
-//        CATransaction.begin()
-//        CATransaction.setDisableActions(true)
-        print("self.bounds : \(self.bounds)")
-        print("self.avPlayerLayer.bounds : \(self.avPlayerLayer.bounds)")
-        
-        avPlayerLayer.frame = self.bounds
-//        CATransaction.commit()
-        
-        super.layoutSubviews()
-    }
+//    
+//    override func layoutSubviews() {
+//        
+////        CATransaction.begin()
+////        CATransaction.setDisableActions(true)
+////        print("self.bounds : \(self.bounds)")
+////        print("self.avPlayerLayer.bounds : \(self.avPlayerLayer.bounds)")
+//        
+//        avPlayerLayer.frame = self.bounds
+////        CATransaction.commit()
+//        
+//        super.layoutSubviews()
+//    }
 }

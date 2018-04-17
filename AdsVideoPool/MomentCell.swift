@@ -57,9 +57,11 @@ class MomentCell: UITableViewCell {
         let dict = self.data["data"] as! NSDictionary
         
         let namn =  dict["user"] as? NSDictionary
-        let avatar = namn!["avatar"] as! String
-        let url = URL(string: avatar)
-        icon.kf.setImage(with: url, for: .normal)
+//        let avatar = namn!["avatar"] as! String
+//        let url = URL(string: avatar)
+//        icon.kf.setImage(with: url, for: .normal)
+        icon.setImage(UIImage.init(named: "userIcon"), for: .normal)
+        
         
         nameL.setTitle(namn!["nickname"] as! String, for: .normal)
 
@@ -107,7 +109,7 @@ class MomentCell: UITableViewCell {
         
         postWay = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: icon.frame.maxY - 11, width: 100, height: 11))
         postWay.font = UIFont.systemFont(ofSize: 11)
-        postWay.textColor = UIColor.init(white: 168/255.0, alpha: 1)
+        postWay.textColor = AppDarkColor
         self.contentView.addSubview(postWay)
         
         textLL = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: postWay.frame.maxY + padding, width:SCREEN_WIDTH-icon.frame.maxX-15-padding, height: 150))
@@ -161,37 +163,40 @@ class MomentCell: UITableViewCell {
         }
         
         
-        timeL = UILabel.init(frame: CGRect.init(x: reply.frame.maxX + 50, y: reply.frame.origin.y, width: 80, height: 13))
+        timeL = UILabel.init(frame: CGRect.init(x: reply.frame.maxX + 20, y: ddd, width: 80, height: 13))
         timeL.font = UIFont.systemFont(ofSize: 13)
-        timeL.textColor = UIColor.init(white: 168/255.0, alpha: 1)
+        timeL.textColor = AppDarkColor
         timeL.center = CGPoint.init(x: timeL.center.x, y: reply.center.y)
         self.contentView.addSubview(timeL)
         timeL.snp.makeConstraints { (make) in
             make.centerY.equalTo(reply.snp.centerY)
-            make.left.equalTo(reply.snp.right).offset(+50)
+            make.left.equalTo(reply.snp.right).offset(+20)
         }
         
+        reply.center = CGPoint.init(x: reply.center.x, y: timeL.center.y)
         
-        
-        likeBtn = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH - 60, y: reply.frame.origin.y, width: 50, height: 20))
+        likeBtn = UIButton.init(frame: CGRect.init(x: SCREEN_WIDTH - 60, y: reply.frame.origin.y, width: 50, height: 50))
         likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praise_prs"), for: .normal)
         likeBtn.setImage(UIImage.init(named: "cm2_act_icn_praised"), for: .selected)
-        likeBtn.addTarget(self, action: #selector(likeBtnClick), for: .touchUpInside)
-        likeBtn.setTitleColor(UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1), for: .selected)
-        likeBtn.setTitleColor(UIColor.init(white: 168/255.0, alpha: 1), for: .normal)
+        likeBtn.addTarget(self, action: #selector(likeBtnClick(btn:)), for: .touchUpInside)
+        likeBtn.setTitleColor(AppRedColor, for: .selected)
+        likeBtn.setTitleColor(AppDarkColor, for: .normal)
         likeBtn.titleLabel?.font = UIFont.systemFont(ofSize: 10)
         likeBtn.center = CGPoint.init(x: likeBtn.center.x, y: reply.center.y)
         self.contentView.addSubview(likeBtn)
         likeBtn.snp.makeConstraints { (make) in
-            make.centerY.equalTo(reply.snp.centerY)
-            make.right.equalTo(self.contentView.snp.right).offset(-padding)
+            make.centerY.equalTo(timeL.snp.centerY)
+            make.right.equalTo(self.contentView.snp.right).offset(-padding*2)
         }
         
     }
     
     
     @objc func likeBtnClick(btn:UIButton) {
-            btn.isSelected = !btn.isSelected
+        let title = btn.titleLabel?.text
+        btn.isSelected = !btn.isSelected
+        let new = btn.isSelected ? String(Int(title!)!+1):String(Int(title!)!-1)
+        btn.setTitle(new, for: .normal)
         
     }
     
@@ -212,6 +217,8 @@ class MomentCell: UITableViewCell {
         let generator = UIImpactFeedbackGenerator.init(style: .light)
         generator.prepare()
         generator.impactOccurred()
+        
+        
 
     }
     

@@ -12,8 +12,12 @@ class CommentInputView: UIView, UITextFieldDelegate {
 
     
     var click:(Bool)->Void = { (name:Bool) -> Void in
-        print("\(name)")
+        
     }
+    
+//    var replyDidClick:(String)->Void = { (name:String) -> Void in
+//        print("\(name)")
+//    }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -31,8 +35,17 @@ class CommentInputView: UIView, UITextFieldDelegate {
         line.backgroundColor = UIColor.init(white: 203/255.0, alpha: 1)
         self.addSubview(line)
         
+        
+        //按钮
+        let btn = UIButton.init(frame: CGRect.init(x: 10, y: 10, width: 30, height: 30))
+        btn.addTarget(self, action: #selector(buttonDidClick), for: .touchUpInside)
+        btn.setImage(UIImage.init(named: "cm2_act_icn_cmt_prs"), for: .selected)
+        btn.setImage(UIImage.init(named: "top"), for: .normal)
+        self.addSubview(btn)
+        
+        
         //输入框
-        let textF = UITextField.init(frame: CGRect.init(x: 10, y: 10, width: self.bounds.width - 60, height: 30))
+        let textF = UITextField.init(frame: CGRect.init(x: btn.frame.maxX, y: 10, width: self.bounds.width - 60, height: 30))
         textF.placeholder = "发表评论"
         
         textF.leftView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 10, height: 10))
@@ -45,12 +58,7 @@ class CommentInputView: UIView, UITextFieldDelegate {
         self.addSubview(textF)
         
       
-        //按钮
-        let btn = UIButton.init(frame: CGRect.init(x: textF.frame.maxX + 10, y: 10, width: 30, height: 30))
-        btn.addTarget(self, action: #selector(buttonDidClick), for: .touchUpInside)
-        btn.setImage(UIImage.init(named: "cm2_act_icn_cmt_prs"), for: .selected)
-        btn.setImage(UIImage.init(named: "top"), for: .normal)
-        self.addSubview(btn)
+      
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {

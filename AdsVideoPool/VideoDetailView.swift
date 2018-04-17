@@ -28,7 +28,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     
     var  textView = CommentInputView()
     var table = UITableView()
-    var playerView = UIImageView()
+    var playerView = VideoPlayerView()
       var bgImg = UIImage()
     var mainView = UIView()
     var cellRect = CGRect()
@@ -39,7 +39,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+        print("创建了\(self)")
         isFirstAppear = true
         
         let jsonPath = Bundle.main.path(forResource: "pinglun", ofType: "json")
@@ -72,18 +72,18 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
     }
 
-    func addView(view:UIImageView){
+    func addView(view:VideoPlayerView){
         self.playerView.removeFromSuperview()
         self.mainView.addSubview(view)
         self.playerView = view
-        self.playerView.isUserInteractionEnabled = false
         
-        mainView.bringSubview(toFront: close)
+        
+//        mainView.bringSubview(toFront: close)
     }
     
     
     var close = UIButton()
-    
+    var headerView = PostInfoView()
     var isZoomable = false
     
     func setupView() {
@@ -100,6 +100,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         effectView.frame = CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: SCREEN_HEIGHT)
         self.view.addSubview(effectView)
+        
+        
         
 //        let vibrancyEffect = UIVibrancyEffect(blurEffect: effect)
 //        let vibrancyView = UIVisualEffectView(effect:vibrancyEffect)
@@ -133,7 +135,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         
         
-        playerView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ddd2))
+        playerView = VideoPlayerView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: ddd2))
         mainView.addSubview(playerView)
 
 
@@ -155,17 +157,18 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         mainView.addSubview(table)
         
-        let head = PostInfoView.init(frame: CGRect.init(x: 0, y: 0, width: table.bounds.width, height: 400))
-        table.tableHeaderView = head
+        headerView = PostInfoView.init(frame: CGRect.init(x: 0, y: 0, width: table.bounds.width, height: 350))
+        headerView.data = data as! [String : String]
+        table.tableHeaderView = headerView
         
         //MARK: 评论
         textView = CommentInputView.init(frame: CGRect.init(x: 0, y: table.frame.maxY, width: self.view.bounds.width, height: 50))
-        textView.click = { (lll)->Void in
+        textView.click = {[weak self] (lll)->Void in
 
             if lll {
-                self.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
+                self?.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
             }else{
-                self.table.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
+                self?.table.setContentOffset(CGPoint.init(x: 0, y: 0), animated: true)
             }
         }
         mainView.addSubview(textView)
@@ -178,7 +181,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
 //        
     }
     
-    
+
     @objc func popViewController() {
         
         mainView.transform = CGAffineTransform.init(scaleX: 0.9, y: 0.9)
@@ -227,12 +230,12 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         
         cell.data = arr[indexPath.row] as! NSDictionary
         
-        cell.userInfoClick = { (data) -> Void in
-            print(data)
-            let user = UserInfoView.init()
-            user.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(user, animated: true)
-        }
+//        cell.userInfoClick = { (data) -> Void in
+//            print(data)
+//            let user = UserInfoView.init()
+//            user.hidesBottomBarWhenPushed = true
+//            self.navigationController?.pushViewController(user, animated: true)
+//        }
         
         return cell
     }
@@ -270,12 +273,13 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)
         
-        
+//        self.popViewController()
 
     }
     deinit {
         //移除通知
         NotificationCenter.default.removeObserver(self)
+         print("deinit \(self)")
     }
 
     var startPoint:CGPoint  = CGPoint(x: 0, y:0)
@@ -316,7 +320,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
                     self.table.isScrollEnabled = true
                 }
             case .ended:  // 手势结束
-                print("手势结束")
+
                 scale = 1;
                 self.table.isScrollEnabled = true;
                 if (scale>0.9) {
@@ -358,6 +362,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         CATransaction.begin()
         CATransaction.setDisableActions(true)
         JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.currentPlayerLayer?.frame = rect
+        
         CATransaction.commit()
         
         self.table.frame = CGRect.init(x: 0, y: self.playerView.frame.maxY, width: SCREEN_WIDTH, height: SCREEN_HEIGHT-self.playerView.frame.maxY)
@@ -370,8 +375,8 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
     }
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if scrollView.contentOffset.y < -40 {
-            self.dismiss(animated: true, completion: nil)
+        if scrollView.contentOffset.y < -90 {
+            self.popViewController()
         }
         
         if scrollView.contentOffset.y > 400 && isZoomable {
@@ -406,7 +411,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
         let cell = toVC.tableView.cellForRow(at: currentIndex) as? MainViewCell
        
         let toView = cell?.playerView
-        print("toView----\(toView?.frame)")
+        
         
         
         fromView.frame = containerView.convert(fromView.frame, from: fromView.superview)
@@ -456,7 +461,7 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             fromView.removeFromSuperview()
             cell!.addView(view: fromView)
             fromView.layer.mask = nil
-            print("toView?.frame:\(toView?.frame)")
+            
             transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
         }
         
@@ -481,9 +486,10 @@ class VideoDetailView: UIViewController,UITableViewDataSource, UIGestureRecogniz
             
             let current = JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.playingKey
             if videoURL.absoluteString != current {
-                self.playerView.jp_playVideo(with: videoURL, options: [.layerVideoGravityResizeAspect,.mutedPlay], progress: nil, completed: nil)
+                self.playerView.jp_playVideo(with: videoURL, options: [.layerVideoGravityResizeAspect,.showProgressView], progress: nil, completed: nil)
+                self.playerView.hideView(true, delay: 0.7)
             }
-            
+            self.playerView.playBtn.isSelected = false
            self.table.scrollToRow(at: IndexPath.init(row: 0, section: 0), at: .top, animated: true)
            isFirstAppear = false
         }

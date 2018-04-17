@@ -74,7 +74,7 @@ class CommentCell: UITableViewCell {
         likeNumber.text = (dict.value(forKey: "likeCount") as! NSNumber).stringValue
         
         likeBtn.isSelected = dict.value(forKey: "liked") as! Bool
-         likeNumber.textColor = likeBtn.isSelected ? (UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1)) : UIColor.init(white: 168/255.0, alpha: 1)
+         likeNumber.textColor = likeBtn.isSelected ? (AppRedColor) : AppDarkColor
     
     }
     
@@ -99,7 +99,7 @@ class CommentCell: UITableViewCell {
         
         timeL = UILabel.init(frame: CGRect.init(x: icon.frame.maxX + padding, y: nameL.frame.maxY + 2, width: 100, height: 9))
         timeL.font = UIFont.systemFont(ofSize: 9)
-        timeL.textColor = UIColor.init(white: 168/255.0, alpha: 1)
+        timeL.textColor = AppDarkColor
         self.contentView.addSubview(timeL)
         
         
@@ -112,7 +112,7 @@ class CommentCell: UITableViewCell {
         
         likeNumber = UILabel.init(frame: CGRect.init(x: likeBtn.frame.minX - 100, y: nameL.frame.origin.y, width: 100, height: 15))
         likeNumber.font = UIFont.systemFont(ofSize: 10)
-        likeNumber.textColor = UIColor.init(white: 168/255.0, alpha: 1)
+        likeNumber.textColor = AppDarkColor
         likeNumber.textAlignment = .right
         likeNumber.center = CGPoint.init(x: likeNumber.center.x, y: likeBtn.center.y + 2)
         self.contentView.addSubview(likeNumber)
@@ -128,7 +128,7 @@ class CommentCell: UITableViewCell {
     
     @objc func likeBtnClick(_ btn:UIButton) {
         btn.isSelected = !btn.isSelected
-        likeNumber.textColor = btn.isSelected ? (UIColor.init(red: 211/255.0, green: 58/255.0, blue: 41/255.0, alpha: 1)) : UIColor.init(white: 168/255.0, alpha: 1)
+        likeNumber.textColor = btn.isSelected ? (AppRedColor) : AppDarkColor
     }
     
     

@@ -8,7 +8,9 @@
 
 import UIKit
 import JPVideoPlayer
-class MainTableView: UITableViewController, UINavigationControllerDelegate, UIViewControllerAnimatedTransitioning {
+import StoreKit
+    
+class MainTableView: UITableViewController, UINavigationControllerDelegate, UIViewControllerAnimatedTransitioning, SKStoreProductViewControllerDelegate {
   
     
     override func viewDidLoad() {
@@ -16,29 +18,31 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
 
         self.tableView.separatorStyle = .none
         self.tableView.register(MainViewCell.self, forCellReuseIdentifier: "reuseIdentifier")
-        self.tableView.delaysContentTouches = false
+        self.tableView.delaysContentTouches = true
         
-        let header = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 100))
-        
-        let date = UILabel.init(frame: CGRect.init(x: 20, y: 20, width: 200, height: 15))
-        date.text = "4月9日 星期一"
-        date.font = UIFont.systemFont(ofSize: 13, weight: .medium)
-        date.textColor = UIColor.init(white: 150/255.0, alpha: 1)
-        header.addSubview(date)
-        
-        let title = UILabel.init(frame: CGRect.init(x: 20, y: date.frame.maxY + 5, width: 200, height: 30))
-        title.text = "今日推荐"
-        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
-        header.addSubview(title)
-        
-        
-        
+        let header = UIView.init(frame: CGRect.init(x: 0, y: 0, width: SCREEN_WIDTH, height: 50))
         self.tableView.tableHeaderView = header
+        
+        
+        
+        let arr = ["新闻","游戏","音乐","搞笑","科技","军事","动画","体育"]
+        let padding = 25
+        for index in 1...6 {
+            
+            let tag1 = PostInfoView.tagBtn(name: arr[index], frame: CGRect.init(x: Double((padding+22)*index), y: 20.0, width: 40.0, height: 18.5))
+            header.addSubview(tag1)
+        }
+
+        
+        
+        self.tableView.canCancelContentTouches = true
     }
 
+    
+    
     override func viewWillAppear(_ animated: Bool) {
         self.navigationController?.delegate = self
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        self.navigationController?.setNavigationBarHidden(true,animated: false)
         
         self.tabBarController?.tabBar.isHidden = false
     }
@@ -52,12 +56,12 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
-        return 5
+        return JSON.count
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath) as! MainViewCell
-        cell.data = JSON[indexPath.row%2]
+        cell.data = JSON[indexPath.row]
         cell.selectionStyle = .none
         cell.indexo = indexPath
         cell.clickClosure = { (index) -> Void in
@@ -67,12 +71,33 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
         return cell
     }
     
+    let appStore = LCAppStore()
+    func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
+        appStore.dismiss(animated: true) {
+            self.playingCell.playerView.jp_resume()
+        }
+        
+    }
     
     
     func click(indexPath:IndexPath){
+        
+        
+        let data = JSON[indexPath.row]
+        
+        if data["type"] == "ads" {
+            
+            
+            appStore.delegate = self
+            appStore.loadProduct(withParameters: ["id":"1321803705"], completionBlock: nil)
+            playingCell.playerView.jp_pause()
+            UIApplication.shared.keyWindow?.rootViewController?.present(appStore, animated: true, completion: nil)
+            
+            return
+        }
+        
         let detail = VideoDetailView()
         detail.bgImg = imageFromView(view: self.view)
-        let data = JSON[indexPath.row%2]
         detail.data = data
         detail.currentIndex = indexPath
         
@@ -116,7 +141,10 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return (SCREEN_WIDTH-40)+25;
+        
+        let ss:[String:String] = JSON[indexPath.row]
+       return ss["type"] == "ads" ? (SCREEN_WIDTH*0.7)+25 : (SCREEN_WIDTH*0.7)+25
+         
     }
     
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
@@ -181,6 +209,13 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
             fromView.frame = mee
              JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.currentPlayerLayer?.frame = fromView.bounds
             
+
+//            print("fromView.subviews.last\(fromView.subviews.last)")
+//            
+//            let sss = fromView.subviews[fromView.subviews.count-2] as? UIView
+//            sss?.backgroundColor = UIColor.init(red: 1.0, green: 0, blue: 0, alpha: 0.4)
+//            sss?.frame = fromView.bounds
+            
             }) { (finished) -> Void in
                 toView.isHidden = false
                 fromView.isHidden = false
@@ -214,12 +249,6 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
                 return
             }
             playingCell = videoCell
-            
-            // display status view.
-//            videoCell.playerView.jp_playVideoMutedDisplayStatusView(with: URL(string: videoCell.videoPath))
-            
-            // hide status view.
-            // videoCell.videoImv.jp_playVideoMuted(with: URL(string: videoCell.videoPath))
         }
         
         func handleScrollStop() {
@@ -234,15 +263,23 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
                 
                 let current = JPVideoPlayerPlayVideoTool.shared().currentPlayVideoItem?.playingKey
                 let filePath = Bundle.main.path(forResource: bestCell.data["videoName"], ofType:nil)
-                let videoURL = URL(fileURLWithPath: filePath!)
+                
+                if filePath != nil {
+                    let videoURL = URL(fileURLWithPath: filePath!)
+                    if videoURL.absoluteString != current {
+                        playingCell.playerView.jp_stopPlay()
+                        
+                        bestCell.playerView.jp_playVideo(with: videoURL, options: [.layerVideoGravityResizeAspect,.showProgressView], progress: nil, completed: nil)
+                        bestCell.playerView.playBtn.isSelected = false
+                        bestCell.playerView.hideView(true, delay: 0.7)
+                        
+                        //.mutedPlay
+                }
+                
                 
 //                let ccc = URL.init(string: "https://cdn.oneway.mobi/cre/109/d1428ce9d90fd857b8fcbc7c0e92b2f7.mp4")
 
-                if videoURL.absoluteString != current {
-                    playingCell.playerView.jp_stopPlay()
-                    
-                bestCell.playerView.jp_playVideo(with: videoURL, options: [.layerVideoGravityResizeAspect,.mutedPlay,.showProgressView], progress: nil, completed: nil)
-//                    bestCell.playerView.jp_playVideoMutedDisplayStatusView(with: videoURL)
+                
                     
                     
                     
@@ -410,5 +447,44 @@ class MainTableView: UITableViewController, UINavigationControllerDelegate, UIVi
     override func viewDidAppear(_ animated: Bool) {
         jumpToDetail = false
         playingCell.playerView.jp_resume()
+        playingCell.playerView.playBtn.isSelected = false
     }
+    
+    
+    static var imageDict:[String:UIImage] = NSMutableDictionary() as! [String : UIImage]
+    
+    static func getImage(videoUrl:URL) -> UIImage {
+        let url = videoUrl.absoluteString
+        
+        
+        let ddd = imageDict[url]
+        if ddd != nil {
+            return ddd!
+        }
+        
+        
+        let avAsset = AVAsset.init(url: videoUrl as URL)
+        print("创建了图片")
+        //生成视频截图
+        let generator = AVAssetImageGenerator(asset: avAsset)
+        generator.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(0.0,600)
+        var actualTime:CMTime = CMTimeMake(0, 0)
+        let imageRef = try?generator.copyCGImage(at: time, actualTime: &actualTime)
+        if imageRef == nil {
+            return UIImage.init(named: "1.png")!
+        }
+        
+        let frameImg = UIImage.init(cgImage: imageRef!)
+        
+        imageDict[url] = frameImg
+//        let imageData = UIImageJPEGRepresentation(frameImg, 1.0) as! NSData
+//        let name = String.init(format: "/Users/lch/Desktop/\(url.hashValue).png")
+//        imageData.write(toFile: name, atomically: true)
+        
+        return frameImg
+    }
+ 
 }
+    
+ 

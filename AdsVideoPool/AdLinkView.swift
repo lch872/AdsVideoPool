@@ -7,8 +7,8 @@
 //
 
 import UIKit
-
-class AdLinkView: UIView {
+import StoreKit
+class AdLinkView: UIView, SKStoreProductViewControllerDelegate{
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,21 +58,34 @@ class AdLinkView: UIView {
         self.addSubview(sub)
         
         //ddd
-        let focus = UIButton.init(frame: CGRect.init(x: self.frame.width - 70,   y: self.frame.height/2-10, width: 50, height: 20))
+        let focus = UIButton.init(frame: CGRect.init(x: self.frame.width - 70,   y: 0, width: 50, height: 20))
         focus.setTitle("获 取", for: .normal)
         focus.titleLabel?.font = UIFont.systemFont(ofSize: 14.0, weight: .semibold)
         focus.setBackgroundImage(UIImage.init(named: "cm4_list_btn_focus_prs"), for: .normal)
         focus.setBackgroundImage(UIImage.init(named: "cm4_list_btn_focus_prs"), for: .highlighted)
         focus.setTitleColor(UIColor.white, for: .normal)
+        focus.isUserInteractionEnabled = false
+        focus.center = CGPoint.init(x: focus.center.x, y: icon.center.y)
         self.addSubview(focus)
         
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
     }
     
+    
+    let appStore = LCAppStore()
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let url = URL.init(string: "https://itunes.apple.com/cn/app/id1321803705")
-        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+//        let url = URL.init(string: "https://itunes.apple.com/cn/app/id1321803705")
+//        UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        
+        
+        appStore.delegate = self
+        appStore.loadProduct(withParameters: ["id":"1321803705"], completionBlock: nil)
+        UIApplication.shared.keyWindow?.rootViewController?.present(appStore, animated: true, completion: nil)
     }
     
+    func productViewControllerDidFinish(_ viewController: SKStoreProductViewController) {
+        appStore.dismiss(animated: true, completion: nil)
+    }
 }
